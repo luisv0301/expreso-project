@@ -11,24 +11,27 @@ export async function getStaticPaths() {
     query: `*[_type == "post"]`,
   });
 
-  return posts.map(({ slug }) => {
+  return posts.map(({ slug, title, mainImage, body }) => {
     return {
       params: {
         slug: slug.current,
       },
+      props: { title, mainImage, body },
     };
   });
 }
 
 const { params } = Astro;
+const { title, mainImage, body } = Astro.props;
 
+/*
 const { data: post } = await loadQuery({
   query: `*[_type == "post" && slug.current == $slug][0]`,
   params,
 });
+*/
 
-console.log(post);
-const imgUrl = urlForImage(post.mainImage.asset).url();
+const imgUrl = urlForImage(mainImage.asset).url();
 ---
 
 <Layout>
@@ -36,7 +39,7 @@ const imgUrl = urlForImage(post.mainImage.asset).url();
     <Image src={imgUrl} inferSize alt="Noticias" class="post__image" />
     <div class="post__description container__global">
       <div>
-        <h1 class="post__title">{post.title}</h1>
+        <h1 class="post__title">{title}</h1>
         <div class="post__date">
           <svg
             width="25"
@@ -81,7 +84,7 @@ const imgUrl = urlForImage(post.mainImage.asset).url();
     </div>
   </div>
   <div class="post__content">
-    <PortableText portableText={post.body} />
+    <PortableText portableText={body} />
   </div>
 </Layout>
 
