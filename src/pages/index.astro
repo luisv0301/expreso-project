@@ -107,7 +107,8 @@ const clientes = [
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: linear-gradient(
+    background:
+      linear-gradient(
         0deg,
         rgba(0, 0, 0, 0) 69.85%,
         rgba(0, 0, 0, 0.12) 99.79%
@@ -127,6 +128,7 @@ const clientes = [
     inset: 0;
     z-index: -1;
     height: 100%;
+    filter: blur(20px);
   }
 
   .header__content {
@@ -278,10 +280,6 @@ const clientes = [
     let tl = gsap.timeline();
     tl.from(".header__title", { opacity: 0, y: 50, duration: 0.3 });
     tl.from(".header__subtitle", { opacity: 0, y: 50, duration: 0.3 });
-    tl.fromTo(
-      ".header__bg",
-      { filter: "blur(20px)" },
-      { filter: "blur(0px)", duration: 0.8 }
-    );
+    tl.to(".header__bg", { filter: "blur(0px)", duration: 0.8 });
   });
 </script>

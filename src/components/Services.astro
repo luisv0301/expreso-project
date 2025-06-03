@@ -235,36 +235,36 @@ const servicios = [
       x: -100,
       scaleX: 0,
     });
-  });
 
-  // Tabs
-  const tabs = document.querySelectorAll(".servicios__tab");
-  const panels = document.querySelectorAll(".servicios__panel");
-  const imgs = document.querySelectorAll(".servicios__img");
-  const clipPaths = [
-    "polygon(0% 0%, 100% 0%, 100% 82%, 0% 100%)",
-    "polygon(0% 0%, 100% 44%, 0% 96%, 16% 46%)",
-    "polygon(0% 0%, 100% 100%, 0% 100%, 100% 0%)",
-  ];
-  const initialClipPath = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
+    // Tabs
+    const tabs = document.querySelectorAll(".servicios__tab");
+    const panels = document.querySelectorAll(".servicios__panel");
+    const imgs = document.querySelectorAll(".servicios__img");
+    const clipPaths = [
+      "polygon(0% 0%, 100% 0%, 100% 82%, 0% 100%)",
+      "polygon(0% 0%, 100% 44%, 0% 96%, 16% 46%)",
+      "polygon(0% 0%, 100% 100%, 0% 100%, 100% 0%)",
+    ];
+    const initialClipPath = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
 
-  tabs.forEach((tab, index) => {
-    tab.addEventListener("click", () => {
-      tabs.forEach((t) => {
-        t.setAttribute("aria-selected", "false");
-        t.setAttribute("tabindex", "-1");
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((t) => {
+          t.setAttribute("aria-selected", "false");
+          t.setAttribute("tabindex", "-1");
+        });
+
+        panels.forEach((p) => (p.style.display = "none"));
+
+        tab.setAttribute("aria-selected", "true");
+        tab.setAttribute("tabindex", "0");
+        panels[index].style.display = "flex";
+
+        const currentImg = imgs[index];
+
+        gsap.set(currentImg, { clipPath: initialClipPath });
+        gsap.to(currentImg, { clipPath: clipPaths[index], duration: 0.5 });
       });
-
-      panels.forEach((p) => (p.style.display = "none"));
-
-      tab.setAttribute("aria-selected", "true");
-      tab.setAttribute("tabindex", "0");
-      panels[index].style.display = "flex";
-
-      const currentImg = imgs[index];
-
-      gsap.set(currentImg, { clipPath: initialClipPath });
-      gsap.to(currentImg, { clipPath: clipPaths[index], duration: 0.5 });
     });
   });
 </script>
