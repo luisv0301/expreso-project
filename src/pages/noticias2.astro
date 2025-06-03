@@ -1,0 +1,185 @@
+---
+import { Image } from "astro:assets";
+import newsOne from "../assets/services.png";
+import Layout from "../layouts/Layout.astro";
+import Posts from "../components/Posts.astro";
+import Button from "../components/Button.astro";
+---
+
+<Layout>
+  <div class="news__container">
+    <header class="container__global">
+      <div class="news__description">
+        <svg
+          width="184"
+          height="25"
+          viewBox="0 0 184 25"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="blog__icon"
+        >
+          <path
+            d="M183.402 12.4824L182.509 11.5479L171.462 0.5L169.591 2.37035L178.406 11.1827L0.1875 11.1827V13.7822L178.407 13.7822L169.592 22.5958L171.462 24.4649L182.509 13.417L183.402 12.4824Z"
+            fill="#EC1C24"></path>
+        </svg>
+        <h1 class="news__main-title">Blog</h1>
+      </div>
+      <div class="news__content">
+        <div class="news__info">
+          <h2 class="news__title">Distribución Interplantas</h2>
+          <div>
+            <div class="news__date">
+              <svg
+                width="25"
+                height="25"
+                viewBox="0 0 25 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <mask
+                  id="mask0_224_4127"
+                  style="mask-type:alpha"
+                  maskUnits="userSpaceOnUse"
+                  x="0"
+                  y="0"
+                  width="25"
+                  height="25"
+                >
+                  <rect
+                    x="0.899414"
+                    y="0.772949"
+                    width="24"
+                    height="24"
+                    fill="#D9D9D9"></rect>
+                </mask>
+                <g mask="url(#mask0_224_4127)">
+                  <path
+                    d="M6.20716 22.273C5.702 22.273 5.27441 22.098 4.92441 21.748C4.57441 21.398 4.39941 20.9704 4.39941 20.4652V7.08071C4.39941 6.57555 4.57441 6.14796 4.92441 5.79796C5.27441 5.44796 5.702 5.27296 6.20716 5.27296H7.59166V3.15771H9.13016V5.27296H16.7072V3.15771H18.2072V5.27296H19.5917C20.0968 5.27296 20.5244 5.44796 20.8744 5.79796C21.2244 6.14796 21.3994 6.57555 21.3994 7.08071V20.4652C21.3994 20.9704 21.2244 21.398 20.8744 21.748C20.5244 22.098 20.0968 22.273 19.5917 22.273H6.20716ZM6.20716 20.773H19.5917C19.6687 20.773 19.7392 20.7409 19.8032 20.6767C19.8673 20.6127 19.8994 20.5422 19.8994 20.4652V11.0807H5.89941V20.4652C5.89941 20.5422 5.9315 20.6127 5.99566 20.6767C6.05966 20.7409 6.13016 20.773 6.20716 20.773ZM5.89941 9.58071H19.8994V7.08071C19.8994 7.00371 19.8673 6.93321 19.8032 6.86921C19.7392 6.80505 19.6687 6.77296 19.5917 6.77296H6.20716C6.13016 6.77296 6.05966 6.80505 5.99566 6.86921C5.9315 6.93321 5.89941 7.00371 5.89941 7.08071V9.58071Z"
+                    fill="#050505"
+                    fill-opacity="0.7"></path>
+                </g>
+              </svg>
+              <span>25 jun, 2025</span>
+            </div>
+
+            <p class="news__text">
+              En Expreso Vitale, entendemos que la logística no es un servicio
+              único, sino un proceso estratégico donde cada fase, logística,
+              transporte y distribución requiere expertise específico. Por eso,
+              diseñamos soluciones a medida para optimizar costos, tiempo y
+              seguridad en cada paso.
+            </p>
+            <Button href="#" label="Leer noticia" />
+          </div>
+        </div>
+        <Image src={newsOne} alt="Noticias" class="news__image" />
+      </div>
+    </header>
+  </div>
+  <section class="news__list container__global">
+    <Posts />
+  </section>
+</Layout>
+
+<style>
+  .news__list {
+    padding-block: 8rem;
+  }
+  .news__container {
+    padding-block: 3rem 5rem;
+    background-color: var(--gray);
+  }
+
+  .news__title {
+    font-size: var(--step-3);
+    margin-block: 0 0.5rem;
+  }
+
+  .news__title::before {
+    display: inline-block;
+    content: "";
+    aspect-ratio: 1 / 1;
+    background-color: var(--primary-color);
+    width: 1rem;
+    margin-right: 0.5rem;
+  }
+
+  .news__text {
+    margin-block: 4rem 1.5rem;
+    max-width: 600px;
+  }
+  .news__main-title {
+    margin: 0;
+  }
+  .news__date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .news__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+  .news__content {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: end;
+    position: relative;
+    isolation: isolate;
+    padding: 1rem;
+  }
+
+  .news__image-container {
+    flex: 1;
+  }
+  .news__info {
+    background: var(--white);
+    padding: 2rem;
+  }
+
+  .news__description {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 3rem;
+  }
+
+  .blog__icon {
+    opacity: 0;
+    transform: translateX(-150px) scaleX(0.25);
+  }
+  @media (max-width: 768px) {
+    .news__content {
+      flex-direction: column-reverse;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .news__container {
+      padding-top: 2rem;
+    }
+  }
+
+  @media (max-width: 450px) {
+    .news__text {
+      margin-top: 1.5rem;
+    }
+
+    .news__list {
+      padding-block: 4rem;
+    }
+  }
+</style>
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("astro:page-load", (event) => {
+    gsap.to(".blog__icon", { x: 0, opacity: 1, scaleX: 1, duration: 0.4 });
+  });
+</script>

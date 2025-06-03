@@ -1,0 +1,312 @@
+---
+import { Image } from "astro:assets";
+import serviceOne from "../../assets/service-one.png";
+
+const servicesData = [
+  {
+    category: "LOGÍSTICA",
+    title: "La Inteligencia Detrás de Cada Operación",
+    subtitle:
+      "No solo almacenamos, administramos tu mercadería con visión estratégica.",
+    features: [
+      "Almacenamiento inteligente: 12,000 m² de depósitos sustentables + 8,000 m² para cargas peligrosas (en expansión), con sistemas WMS para gestión en tiempo real.",
+      "Trazabilidad absoluta: Plataformas SICOP y CERTRONIC para documentación digitalizada y auditorías sin papeles.",
+      "Logística Inversa: Recuperación y reclasificación de mercadería (ideal para retail y e-commerce).",
+    ],
+    imageUrl: serviceOne, // REEMPLAZAR
+    imageAlt: "Interior de un almacén de logística con operarios trabajando.",
+  },
+  {
+    category: "TRANSPORTE",
+    title: "Movemos Tus Cargas con Precisión Industrial",
+    subtitle: "Potencia controlada, seguridad certificada.",
+    features: [
+      "Tecnología en movimiento: Rastreo satelital homologado por CESVI, vehículos con ADAS (frenos autónomos, cámaras 360°).",
+      "Sustentabilidad: Unidades a gas/eléctricas para reducir tu huella de carbono.",
+    ],
+    imageUrl: serviceOne, // REEMPLAZAR
+    imageAlt: "Flota de camiones de transporte en carretera.",
+  },
+  {
+    category: "Distribución",
+    title: "Entregas que Generan Confianza",
+    subtitle: "Última milla impecable, satisfacción garantizada.",
+    features: [
+      "Distribución interplantas: Transporte de contenedores entre centros industriales con ventanas horarias flexibles.",
+      "Entregas críticas: Cajeros automáticos a entidades financieras con custodia armada opcional.",
+      "Última milla urbana: Flota ágil para entregas B2C o retail (ej: supermercados).",
+    ],
+    imageUrl: serviceOne, // REEMPLAZAR
+    imageAlt: "Flota de camiones de transporte en carretera.",
+  },
+];
+---
+
+<section class="key-services">
+  <div class="key-services__header">
+    <svg
+      width="202"
+      height="27"
+      viewBox="0 0 202 27"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M201.922 13.1589L200.942 12.1326L188.809 0L186.755 2.05398L196.436 11.7315L0.71875 11.7315V14.5863L196.437 14.5863L186.757 24.2653L188.809 26.3178L200.942 14.1852L201.922 13.1589Z"
+        fill="white"></path>
+    </svg>
+
+    <h2>Servicios que impulsan tu operación</h2>
+  </div>
+  <div class="key-services__container">
+    {
+      servicesData.map((service, index) => (
+        <article
+          class={`key-services__item key-services__item--${index % 2 === 0 ? "even" : "odd"}`}
+        >
+          <div class="key-services__content">
+            <span class="key-services__category">
+              <span class="key-services__category-icon" />
+              {service.category}
+            </span>
+            <h2 class="key-services__title">{service.title}</h2>
+            {service.subtitle && (
+              <p class="key-services__subtitle">{service.subtitle}</p>
+            )}
+            <ul class="key-services__feature-list">
+              {service.features.map((feature) => (
+                <li class="key-services__feature-item">{feature}</li>
+              ))}
+            </ul>
+          </div>
+          <div class="key-services__image-wrapper">
+            <Image
+              src={service.imageUrl}
+              alt={service.imageAlt}
+              class="key-services__image"
+            />
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .key-services {
+    display: flex;
+    gap: 1rem; /* Espaciado vertical para la sección */
+    align-items: start;
+    background-color: #ffffff; /* Fondo blanco o el que corresponda */
+    min-height: 100vh;
+  }
+
+  .key-services__header {
+    max-width: 480px;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 4rem 2rem;
+    justify-content: space-between;
+    background-color: var(--primary-color);
+    color: var(--white);
+  }
+
+  .key-services__header h2 {
+    color: var(--white);
+    font-size: var(--step-5);
+  }
+
+  .key-services__container {
+    max-width: 900px; /* Un ancho un poco más contenido para mejor lectura */
+    margin-inline: auto;
+    padding: 4rem 1rem;
+  }
+
+  .key-services__item {
+    margin-bottom: 4rem; /* Espacio entre cada servicio destacado */
+  }
+  .key-services__item:last-child {
+    margin-bottom: 0;
+  }
+
+  .key-services__content {
+    margin-bottom: 1.5rem; /* Espacio entre el texto y la imagen */
+  }
+
+  .key-services__category {
+    display: inline-flex; /* Para alinear el ícono y el texto */
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--primary-color); /* Color del texto de categoría */
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .key-services__category-icon {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: var(--primary-color); /* Color rojo/naranja principal */
+    margin-right: 0.5rem;
+  }
+
+  .key-services__title {
+    font-size: var(--step-3); /* Tamaño del título principal del servicio */
+    font-weight: bold;
+    color: #222222; /* Color oscuro para el título */
+    line-height: 1.2;
+    margin-block: 0 0.75rem;
+  }
+
+  .key-services__subtitle {
+    margin-bottom: 1.5rem;
+  }
+
+  .key-services__feature-list {
+    padding-block: 3rem;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    margin-left: auto;
+    max-width: 650px;
+  }
+
+  .key-services__feature-item {
+    margin-bottom: 0.8rem;
+    padding-left: 1.8rem; /* Espacio para el pseudo-elemento cuadrado */
+    position: relative; /* Para posicionar el pseudo-elemento */
+  }
+
+  .key-services__feature-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.45em; /* Ajustar verticalmente para alinear con el texto */
+    width: 10px;
+    height: 10px;
+    background-color: #e94f30; /* Color rojo/naranja principal */
+  }
+  .key-services__feature-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .key-services__image-wrapper {
+    /* Contenedor de la imagen */
+    border-radius: 8px; /* Opcional: si quieres bordes redondeados para la imagen */
+    overflow: hidden; /* Para que el border-radius afecte a la imagen */
+    line-height: 0; /* Para eliminar espacio extra si la imagen es inline-block */
+  }
+
+  .key-services__image {
+    width: 100%;
+    height: auto;
+    display: block; /* Para asegurar que no haya espacio extra debajo */
+  }
+
+  /* Estilos responsivos 
+  @media (max-width: 768px) {
+    .key-services {
+      padding-block: 3rem;
+    }
+    .key-services__title {
+      font-size: 1.8rem;
+    }
+    .key-services__subtitle {
+      font-size: 1rem;
+    }
+    .key-services__feature-item {
+      font-size: 0.9rem;
+      padding-left: 1.6rem; 
+    }
+    .key-services__feature-item::before {
+      width: 8px;
+      height: 8px;
+      top: 0.5em;
+    }
+    .key-services__category-icon {
+      width: 8px;
+      height: 8px;
+    }
+  }
+  */
+
+  /*Opcional: Si quisieras alternar la posición de imagen y texto en desktop */
+  /* Por ejemplo, imagen a la izquierda en items pares y a la derecha en impares */
+  /*
+  @media (min-width: 992px) {
+    .key-services__item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      margin-bottom: 5rem;
+    }
+    .key-services__item--odd .key-services__content {
+      order: 1;
+    }
+    .key-services__item--odd .key-services__image-wrapper {
+      order: 2;
+    }
+    .key-services__item--even .key-services__content {
+      order: 2;
+    }
+    .key-services__item--even .key-services__image-wrapper {
+      order: 1;
+    }
+    .key-services__content {
+      margin-bottom: 0; // Reset margin
+    }
+  }
+  */
+
+  @media (max-width: 1000px) {
+    .key-services {
+      flex-direction: column;
+    }
+
+    .key-services__header {
+      max-width: 100%;
+      min-height: auto;
+      position: static;
+    }
+
+    .key-services__container {
+      margin: 0;
+      max-width: 100%;
+      padding: 4rem var(--padding-x);
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("astro:page-load", () => {
+    const services = document.querySelectorAll(".key-services__image");
+    services.forEach((service) => {
+      gsap.fromTo(
+        service,
+        {
+          clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
+        },
+        {
+          scrollTrigger: {
+            trigger: service,
+            start: "top center",
+            end: "bottom center",
+            scrub: true,
+          },
+          clipPath: "polygon(100% 0, 0 0, 0 100%, 100% 100%)",
+        }
+      );
+    });
+  });
+</script>

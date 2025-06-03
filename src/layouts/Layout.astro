@@ -1,0 +1,162 @@
+---
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+// Supports weights 100-900
+import "@fontsource-variable/inter";
+// Supports weights 400-900
+import "@fontsource-variable/schibsted-grotesk";
+import { ClientRouter } from "astro:transitions";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro Basics</title>
+    <ClientRouter />
+  </head>
+  <body>
+    <Navbar />
+    <div class="container">
+      <slot />
+    </div>
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  > *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* Prevent font size inflation */
+  html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+    --primary-color: #ec1c24;
+    --primary-color-on-hover: #ca1118;
+    --gray: #f0f0f0;
+    --gray-dark: #333333;
+    --black: #050505;
+    --white: #ffffff;
+    --border-color: hsla(0, 0%, 0%, 0.25);
+    --max-width: 1350px;
+    --padding-x: 1rem;
+    --color-text: hsla(0, 0%, 14%, 0.8);
+
+    --step--2: clamp(0.7813rem, 0.7754rem + 0.0291vw, 0.8rem);
+    --step--1: clamp(0.9375rem, 0.9181rem + 0.0971vw, 1rem);
+    --step-0: clamp(1.125rem, 1.0862rem + 0.1942vw, 1.25rem);
+    --step-1: clamp(1.35rem, 1.284rem + 0.3301vw, 1.5625rem);
+    --step-2: clamp(1.62rem, 1.5165rem + 0.5175vw, 1.9531rem);
+    --step-3: clamp(1.944rem, 1.7895rem + 0.7727vw, 2.4414rem);
+    --step-4: clamp(2.3328rem, 2.1094rem + 1.1168vw, 3.0518rem);
+    --step-5: clamp(2.7994rem, 2.4839rem + 1.5772vw, 3.8147rem);
+    --step-6: clamp(3.3592rem, 2.9214rem + 2.189vw, 4.7684rem);
+    --step-7: clamp(4.0311rem, 3.4317rem + 2.9971vw, 5.9605rem);
+  }
+
+  /* Remove default margin in favour of better control in authored CSS */
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  blockquote,
+  dl,
+  dd {
+    margin-block-end: 0;
+  }
+
+  /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+  ul[role="list"],
+  ol[role="list"] {
+    list-style: none;
+  }
+
+  /* Set core body defaults */
+  body {
+    min-height: 100vh;
+    line-height: 1.5;
+    box-sizing: border-box;
+    margin: 0;
+    background-color: #f7f7f7;
+    font-family: "Inter Variable", sans-serif;
+    line-height: 1.4;
+    color: var(--color-text);
+    font-size: var(--step--1);
+  }
+
+  /* Set shorter line heights on headings and interactive elements */
+  h1,
+  h2,
+  h3,
+  h4,
+  button,
+  input,
+  label {
+    line-height: 1.1;
+  }
+
+  /* Balance text wrapping on headings */
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    font-family: "Schibsted Grotesk Variable", sans-serif;
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--black);
+  }
+
+  h1 {
+    font-size: var(--step-5);
+  }
+
+  /* A elements that don't have a class get default styles */
+  a:not([class]) {
+    text-decoration-skip-ink: auto;
+    color: currentColor;
+  }
+
+  /* Make images easier to work with */
+  img,
+  picture {
+    max-width: 100%;
+    display: block;
+  }
+
+  /* Inherit fonts for inputs and buttons */
+  input,
+  button,
+  textarea,
+  select {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  /* Make sure textareas without a rows attribute are not tiny */
+  textarea:not([rows]) {
+    min-height: 10em;
+  }
+
+  /* Anything that has been anchored to should have extra scroll margin */
+  :target {
+    scroll-margin-block: 5ex;
+  }
+
+  .container__global {
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-inline: var(--padding-x);
+  }
+</style>

@@ -1,0 +1,88 @@
+---
+import Layout from "../layouts/Layout.astro";
+import servicesHeader from "../assets/services-header.png";
+import { Image } from "astro:assets";
+import Services from "../components/services/Services.astro";
+import Clients from "../components/Clients.astro";
+---
+
+<Layout>
+  <div class="services__header-container">
+    <header class="container__global">
+      <h1 class="services__header-title">
+        Cada etapa de tu cadena de suministro está en las mejores manos
+      </h1>
+      <div class="services__content">
+        <p>
+          En Expreso Vitale, entendemos que la logística no es un servicio
+          único, sino un proceso estratégico donde cada fase, logística,
+          transporte y distribución requiere expertise específico. Por eso,
+          diseñamos soluciones a medida para optimizar costos, tiempo y
+          seguridad en cada paso.
+        </p>
+        <Image src={servicesHeader} alt="Servicios" class="services__header" />
+      </div>
+    </header>
+  </div>
+  <div>
+    <Services />
+  </div>
+  <div>
+    <Clients />
+  </div>
+</Layout>
+
+<style>
+  .services__header-container {
+    padding-block: 5rem;
+    background-color: var(--gray);
+  }
+  .services__header-title {
+    max-width: 774px;
+    margin: 0;
+  }
+  .services__content {
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    margin-top: 4rem;
+  }
+
+  @media (max-width: 1000px) {
+    .services__content {
+      flex-direction: column;
+      margin-top: 1.5rem;
+    }
+
+    .services__content img {
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .services__header-container {
+      padding-block: 2rem 3rem;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("astro:page-load", () => {
+    const tl = gsap.timeline();
+    tl.from(".services__header-title", { opacity: 0, y: 50, duration: 0.4 });
+
+    tl.fromTo(
+      ".services__header",
+      {
+        clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
+      },
+      {
+        clipPath: "polygon(100% 0, 0 0, 0 100%, 100% 100%)",
+        duration: 0.6,
+      },
+      "+=0.1"
+    );
+  });
+</script>

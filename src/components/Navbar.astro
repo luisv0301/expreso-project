@@ -1,0 +1,213 @@
+---
+import logo from "../assets/logo.png";
+const navLinks = [
+  { href: "/", text: "INICIO" },
+  { href: "/servicios", text: "SERVICIOS" },
+  { href: "/sobre-nosotros", text: "SOBRE NOSOTROS" },
+  { href: "/flota", text: "FLOTA" },
+  { href: "/noticias2", text: "NOTICIAS" },
+];
+---
+
+<div class="header">
+  <div class="header__container container__global">
+    <div class="header__logo">
+      <a href="/" aria-label="Página de inicio de Expreso Vitale">
+        <img src={logo.src} alt="Expreso Vitale Logo" />
+      </a>
+    </div>
+    <button class="header__hambur-menu">
+      <div class="menu-container">
+        <svg id="splitCrossBurger" viewBox="0 0 200 200">
+          <g
+            fill="none"
+            stroke="var(--stroke-color)"
+            stroke-width="10"
+            stroke-linecap="round"
+          >
+            <line id="topLine3" x1="40" y1="70" x2="160" y2="70"></line>
+            <line id="middleLine3" x1="40" y1="100" x2="160" y2="100"></line>
+            <line id="bottomLine3" x1="40" y1="130" x2="160" y2="130"></line>
+          </g>
+        </svg>
+      </div>
+    </button>
+    <nav class="header__nav nav--active" aria-label="Navegación principal">
+      <ul class="header__nav-list">
+        {
+          navLinks.map((link) => (
+            <li class="header__nav-item">
+              <a href={link.href} class="header__nav-link">
+                {link.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<style>
+  .menu-container {
+    width: 32px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    --stroke-color: var(--gray-dark);
+    transition: background-color 0.3s ease;
+  }
+  .header {
+    padding-block: 1rem; /* Espaciado vertical */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil como en la imagen */
+  }
+
+  .header__hambur-menu {
+    display: none;
+    border: none;
+    background: none;
+  }
+  .header__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header__logo a {
+    color: #333; /* Color del texto del logo si usas texto */
+  }
+
+  .header__logo img {
+    display: block; /* Evita espacio extra debajo de la imagen */
+    /* Ajusta el tamaño del logo según tu archivo de imagen real */
+  }
+
+  /* Estilos de ejemplo si usas texto para el logo */
+  /*
+  .header__logo-text {
+    font-size: 1.8rem;
+    color: #e94f30;
+  }
+  .header__logo-text--bold {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #3a3a3a;
+    margin-left: 0.25rem;
+  }
+  */
+
+  .header__nav-list {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem; /* Espacio entre elementos del menú */
+    margin: 0;
+    padding: 0;
+  }
+
+  .header__nav-link {
+    color: var(--black);
+    text-decoration: none;
+    font-weight: 500; /* Un poco más de peso para los enlaces del menú */
+    font-size: var(--step--2); /* Tamaño de fuente, ajusta según tu diseño */
+    text-transform: uppercase; /* Como se ve en la imagen */
+    padding: 0.5rem 0;
+    position: relative; /* Para posibles efectos hover/active */
+  }
+
+  .header__nav-link:hover {
+    color: #e94f30; /* Color al pasar el mouse, ajusta al color de tu marca */
+  }
+
+  /* Para un posible indicador de página activa */
+  .header__nav-link--active {
+    font-weight: bold;
+    color: #e94f30; /* Color de la página activa */
+  }
+
+  /* Media query para la navegación en pantallas más pequeñas (opcional por ahora) */
+  @media (max-width: 768px) {
+    .header__nav-link {
+      opacity: 0;
+    }
+    .header__hambur-menu {
+      display: block;
+    }
+
+    .header__nav {
+      background-color: white;
+      position: absolute;
+      top: 69px;
+      left: 0;
+      width: 100%;
+      padding: 1rem;
+      box-sizing: border-box;
+      z-index: 5;
+    }
+    .header__nav-list {
+      flex-direction: column;
+    }
+    .nav--active {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("astro:page-load", (event) => {
+    function toggleActive(element: Element, timeline: gsap.core.Timeline) {
+      element.classList.toggle("active");
+      if (timeline.progress() === 0) {
+        timeline.play();
+      } else {
+        timeline.reverse();
+      }
+    }
+
+    const tl3 = gsap.timeline({ paused: true });
+    tl3
+      .to("#topLine3", {
+        y: 30,
+        rotation: 45,
+        transformOrigin: "center center",
+        duration: 0.4,
+        ease: "power2.inOut",
+      })
+      .to(
+        "#bottomLine3",
+        {
+          y: -30,
+          rotation: -45,
+          transformOrigin: "center center",
+          duration: 0.4,
+          ease: "power2.inOut",
+        },
+        0
+      )
+      .to(
+        "#middleLine3",
+        {
+          opacity: 0,
+          duration: 0.2,
+          ease: "power2.inOut",
+        },
+        0
+      );
+
+    const burger3 = document.querySelector("#splitCrossBurger");
+    burger3?.addEventListener("click", () => {
+      //Stagger animation
+      const navbar = document.querySelector(".header__nav");
+      navbar?.classList.toggle("nav--active");
+      gsap.fromTo(
+        ".header__nav-link",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5, stagger: 0.1 }
+      );
+
+      toggleActive(burger3, tl3);
+    });
+  });
+</script>

@@ -1,0 +1,209 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Posts from "../components/Posts.astro";
+import Clients from "../components/Clients.astro";
+import { Image } from "astro:assets";
+import teamOne from "../assets/team-1.png";
+import teamTwo from "../assets/team-2.png";
+---
+
+<Layout>
+  <header class="about__container">
+    <svg
+      width="1060"
+      height="517"
+      viewBox="0 0 1060 517"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      class="about__svg"
+    >
+      <path
+        d="M0 46.7739H590.606L1027.1 483.27"
+        stroke="#EC1C24"
+        stroke-opacity="0.5"
+        stroke-width="93"
+        class="about__path"></path>
+    </svg>
+
+    <div class="about container__global">
+      <p class="about__text">
+        En Expreso Vitale, nuestra historia es la base de nuestro compromiso.
+        Todo comenzó cuando “Don Juan”, un hombre de familia y visionario,
+        arrancó su sueño con un solo vehículo: un Bedford modelo 60. Junto a su
+        hijo mayor, recorrió caminos, entregó cargas y sembró los valores que
+        hoy nos definen: trabajo duro, responsabilidad y cercanía con el
+        cliente.
+      </p>
+      <h1 class="about__title">
+        Más de <span class="about__highlight">30 años moviendo el futuro</span> ,
+        con la esencia de una empresa familiar
+      </h1>
+    </div>
+  </header>
+  <Clients />
+  <section class="team container__global">
+    <div class="team__content">
+      <h2 class="team__title">Equipo profesional</h2>
+      <div>
+        <Image src={teamOne} alt="" class="team__img-small" />
+        <p>
+          No solo capacitamos a nuestros conductores y conductoras con las
+          máximas habilitaciones exigidas por la ley, sino que también
+          fomentamos un entorno laboral inclusivo, donde la experiencia y la
+          profesionalidad son nuestro sello.
+        </p>
+      </div>
+    </div>
+    <div class="team__img">
+      <Image src={teamTwo} alt="" class="team__img-main" />
+    </div>
+  </section>
+  <div class="news__container">
+    <section class="news container__global">
+      <h2 class="news__title">Noticias</h2>
+      <Posts />
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .about__container {
+    background-color: var(--black);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .about__svg {
+    position: absolute;
+    top: 0;
+    right: -3rem;
+    z-index: -1;
+  }
+  .about {
+    height: 45vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 3rem;
+    overflow-y: hidden;
+  }
+
+  .about__title {
+    color: var(--white);
+  }
+  .about__text {
+    max-width: 550px;
+    opacity: 0.75;
+  }
+  .about > * {
+    margin-top: 0;
+  }
+
+  .about__highlight {
+    color: var(--primary-color);
+  }
+  .team {
+    display: flex;
+    gap: 1rem;
+    padding-block: 5rem;
+  }
+  .team img {
+    object-fit: cover;
+  }
+  .team__img {
+    flex: 1.5;
+  }
+
+  .team__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .team__title {
+    font-size: var(--step-4);
+    margin-top: 0;
+    color: var(--primary-color);
+  }
+
+  .news__container {
+    background-color: var(--white);
+    padding-block: 8rem;
+  }
+
+  .news__title {
+    font-size: var(--step-0);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .team__img-main,
+  .team__img-small {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+  }
+
+  @media (max-width: 580px) {
+    .team {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .team__title {
+      margin-bottom: 1.5rem;
+    }
+
+    .news__container {
+      padding-block: 4rem;
+    }
+
+    .about {
+      height: auto;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .news__title {
+      margin-bottom: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(DrawSVGPlugin);
+
+  document.addEventListener("astro:page-load", (event) => {
+    gsap.from(".about__title", { y: 100, opacity: 0, duration: 0.5 });
+    gsap.from(".about__path", { duration: 1, drawSVG: 0 });
+
+    const tl = gsap.timeline();
+
+    tl.to(".team__img-small", {
+      scrollTrigger: {
+        trigger: ".team__img-small",
+        start: "top center",
+        end: "bottom center",
+        scrub: true,
+      },
+      clipPath: "polygon(100% 0, 0 0, 0 100%, 100% 100%)",
+    });
+
+    tl.to(".team__img-main", {
+      scrollTrigger: {
+        trigger: ".team__img-main",
+        start: "top center",
+        end: "bottom center",
+        scrub: true,
+      },
+      clipPath: "polygon(100% 0, 0 0, 0 100%, 100% 100%)",
+    });
+  });
+</script>

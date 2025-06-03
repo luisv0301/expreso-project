@@ -1,0 +1,64 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Benefits from "../components/Benefits.astro";
+---
+
+<Layout>
+  <div class="flota__description container__global">
+    <div>
+      <svg
+        width="184"
+        height="25"
+        viewBox="0 0 184 25"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="flota__icon"
+      >
+        <path
+          d="M183.215 12.8189L182.322 11.8843L171.274 0.836426L169.404 2.70677L178.219 11.5191L0 11.5191V14.1186L178.22 14.1186L169.405 22.9322L171.274 24.8013L182.322 13.7534L183.215 12.8189Z"
+          fill="#EC1C24"></path>
+      </svg>
+      <h1 class="flota__title">
+        Una flota diseñada para cada necesidad logística
+      </h1>
+    </div>
+
+    <p>
+      Contamos con una flota diversa y especializada, optimizada para brindar
+      soluciones eficientes en cada etapa de tu cadena de suministro. Desde
+      vehículos ágiles para entregas urbanas hasta unidades pesadas para cargas
+      peligrosas, cada uno está equipado con tecnología de punta y mantenimiento
+      riguroso para garantizar seguridad, puntualidad y sustentabilidad.
+    </p>
+  </div>
+  <div class="benefits__list">
+    <Benefits />
+  </div>
+</Layout>
+
+<style>
+  .flota__title {
+    margin-block: 0 1rem;
+  }
+  .flota__description {
+    padding-block: 5rem;
+  }
+  .benefits__list {
+    background-color: var(--black);
+  }
+
+  .flota__icon {
+    float: left;
+    margin-right: 1rem;
+    opacity: 0;
+    transform: translateX(-150px) scaleX(0.25);
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("astro:page-load", (event) => {
+    gsap.to(".flota__icon", { x: 0, opacity: 1, scaleX: 1, duration: 0.4 });
+  });
+</script>

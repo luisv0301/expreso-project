@@ -1,0 +1,490 @@
+---
+import logo from "../assets/logo.png";
+import footerBg from "../assets/footer-bg.png";
+import Button from "./Button.astro";
+const footerNavLinks = [
+  { href: "/", text: "INICIO" },
+  { href: "/servicios", text: "SERVICIOS" },
+  { href: "/sobre-nosotros", text: "SOBRE NOSOTROS" },
+  { href: "/flota", text: "FLOTA" },
+  { href: "/noticias", text: "NOTICIAS" },
+];
+
+const legalLinks = [
+  { href: "/terminos-y-condiciones", text: "TERMINOS Y CONDICIONES" },
+  { href: "/politicas-de-privacidad", text: "POLITICAS DE PRIVACIDAD" },
+];
+---
+
+<footer class="site-footer">
+  <section
+    class="site-footer__contact-section"
+    style={`background-image: url('${footerBg.src}');`}
+  >
+    <div class="site-footer__contact-container">
+      <div class="site-footer__contact-info">
+        <h2 class="site-footer__contact-title">Contáctanos</h2>
+        <p class="site-footer__contact-description">
+          Monitoreo satelital en tiempo real (homologado por CESVI) para que
+          sigas cada paso de tu carga.
+        </p>
+        <ul class="site-footer__contact-details">
+          <li class="site-footer__contact-detail-item">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="site-footer__contact-icon"
+              ><path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              ></path><polyline points="22,6 12,13 2,6"></polyline></svg
+            >
+            <a href="mailto:expreso@email.com" class="site-footer__contact-link"
+              >expreso@email.com</a
+            >
+          </li>
+          <li class="site-footer__contact-detail-item">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="site-footer__contact-icon"
+              ><path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+              ></path></svg
+            >
+            <a href="tel:+585940393" class="site-footer__contact-link"
+              >+58 5940393</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="site-footer__contact-form-wrapper">
+        <form action="#" method="POST" class="contact-form">
+          <div class="contact-form__group contact-form__group--half">
+            <label for="nombre" class="contact-form__label">NOMBRE</label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              class="contact-form__input"
+            />
+          </div>
+          <div class="contact-form__group contact-form__group--half">
+            <label for="email" class="contact-form__label">EMAIL</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="contact-form__input"
+            />
+          </div>
+          <div class="contact-form__group">
+            <label for="asunto" class="contact-form__label">ASUNTO</label>
+            <input
+              type="text"
+              id="asunto"
+              name="asunto"
+              class="contact-form__input"
+            />
+          </div>
+          <div class="contact-form__group">
+            <label for="mensaje" class="contact-form__label">MENSAJE</label>
+            <textarea
+              id="mensaje"
+              name="mensaje"
+              rows="4"
+              class="contact-form__textarea"></textarea>
+          </div>
+          <Button href="#" label="ENVIAR MENSAJE" />
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="site-footer__main">
+    <div class="site-footer__main-container site-footer__main-container--top">
+      <div class="site-footer__about">
+        <a
+          href="/"
+          class="site-footer__logo-link"
+          aria-label="Página de inicio de Expreso Vitale"
+        >
+          <img
+            src={logo.src}
+            alt="Expreso Vitale Logo"
+            class="site-footer__logo-img"
+          />
+        </a>
+        <p class="site-footer__about-text">
+          Nos enfocamos en optimizar tus costos y tiempos, garantizando que cada
+          carga llegue a su destino con la máxima eficiencia, seguridad y
+          cuidado del medio ambiente.
+        </p>
+      </div>
+      <nav class="site-footer__nav" aria-label="Navegación secundaria">
+        <ul class="site-footer__nav-list">
+          {
+            footerNavLinks.map((link) => (
+              <li class="site-footer__nav-item">
+                <a href={link.href} class="site-footer__nav-link">
+                  {link.text}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+    <div
+      class="site-footer__main-container site-footer__main-container--bottom"
+    >
+      <p class="site-footer__copyright">
+        EXPRESO &copy; {new Date().getFullYear()} Expreso Vitale. Todos los derechos
+        reservados.
+      </p>
+      <nav class="site-footer__legal-nav" aria-label="Enlaces legales">
+        <ul class="site-footer__legal-list">
+          {
+            legalLinks.map((link) => (
+              <li class="site-footer__legal-item">
+                <a href={link.href} class="site-footer__legal-link">
+                  {link.text}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+  </section>
+</footer>
+
+<style>
+  /* Estilos Generales para el Footer */
+  .site-footer {
+    /* No necesita background aquí ya que las secciones internas lo tienen */
+    /* max-width: var(--max-width); */
+  }
+
+  /* --- Estilos para la Sección de Contacto --- */
+  .site-footer__contact-section {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #ffffff;
+    padding-block: 4rem; /* Espaciado vertical */
+  }
+
+  .site-footer__contact-container {
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas */
+    gap: 3rem; /* Espacio entre columnas */
+    align-items: start; /* Alinear al inicio */
+  }
+
+  .site-footer__contact-info {
+    /* Contenedor para la info de la izquierda */
+  }
+
+  .site-footer__contact-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    color: var(--white);
+  }
+
+  .site-footer__contact-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 450px; /* Limitar ancho de este párrafo */
+  }
+
+  .site-footer__contact-details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .site-footer__contact-detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .site-footer__contact-icon {
+    margin-right: 0.8rem;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+
+  .site-footer__contact-link {
+    color: #ffffff;
+    text-decoration: none;
+    word-break: break-all; /* Para evitar desbordamiento de emails largos */
+  }
+  .site-footer__contact-link:hover {
+    text-decoration: underline;
+  }
+
+  .site-footer__contact-form-wrapper {
+    /* Contenedor del formulario */
+    background-color: #ffffff; /* Fondo blanco para el formulario como en la imagen */
+    padding: 2rem;
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Estilos para el Formulario de Contacto (BEM anidado o separado) */
+  .contact-form {
+    display: grid;
+    gap: 1rem; /* Espacio vertical entre grupos de campos */
+    grid-template-columns: 1fr 1fr; /* Nombre y Email en la misma fila */
+  }
+  .contact-form__group {
+    margin-bottom: 0.5rem; /* Espacio dentro de cada grupo */
+    grid-column: span 2; /* Por defecto ocupan 2 columnas */
+  }
+  .contact-form__group--half {
+    grid-column: span 1; /* Para que ocupen 1 columna */
+  }
+
+  .contact-form__label {
+    display: block;
+    font-size: 0.75rem; /* Letra pequeña para labels */
+    color: #555555; /* Color gris para labels */
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .contact-form__input,
+  .contact-form__textarea {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    padding: 0.75rem 0.5rem; /* Padding ajustado */
+    font-size: 0.9rem;
+    color: #333333;
+    border: none;
+    border-bottom: 1px solid var(--gray-dark);
+  }
+  .contact-form__input:focus,
+  .contact-form__textarea:focus {
+    outline: none;
+    border-color: #e94f30; /* Color principal al enfocar */
+    box-shadow: 0 0 0 2px rgba(233, 79, 48, 0.2);
+  }
+
+  .contact-form__textarea {
+    resize: vertical; /* Permitir redimensionar verticalmente */
+    min-height: 80px;
+  }
+
+  .contact-form__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e94f30; /* Color principal */
+    color: #ffffff;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    grid-column: span 2; /* Ocupar todo el ancho */
+    margin-top: 0.5rem; /* Espacio arriba del botón */
+  }
+
+  .contact-form__button:hover {
+    background-color: #d0452a; /* Oscurecer al pasar el mouse */
+  }
+
+  .contact-form__button-icon {
+    margin-left: 0.75rem;
+  }
+
+  /* --- Estilos para la Sección Principal del Footer --- */
+  .site-footer__main {
+    color: var(--black);
+    padding-block: 3rem;
+  }
+
+  .site-footer__main-container {
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-inline: var(--padding-x);
+  }
+
+  .site-footer__main-container--top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    padding-bottom: 2rem; /* Espacio antes de la línea de copyright */
+    border-bottom: 1px solid var(--gray-dark); /* Línea divisoria sutil */
+    margin-bottom: 2rem; /* Espacio después de la línea */
+  }
+
+  .site-footer__about {
+    flex-basis: 40%; /* Darle más espacio al logo y descripción */
+    max-width: 450px;
+  }
+
+  .site-footer__logo-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+  .site-footer__logo-img {
+    /* Si el logo original no se ve bien en fondo oscuro, podrías aplicar un filtro
+       o usar una versión diferente del logo. Por ejemplo, si es un SVG negro:
+       filter: brightness(0) invert(1); */
+  }
+  /* Ejemplo si usas texto para el logo en el footer */
+  /*
+.site-footer__logo-text {
+  font-size: 1.8rem;
+  color: #e94f30;
+}
+.site-footer__logo-text--bold {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-left: 0.25rem;
+}
+*/
+
+  .site-footer__about-text {
+    font-size: var(--step--2); /* Texto un poco más tenue */
+  }
+
+  .site-footer__nav {
+    flex-basis: 55%; /* Espacio para la navegación */
+  }
+
+  .site-footer__nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap; /* Para que los items pasen abajo si no caben */
+    justify-content: flex-end; /* Alinear a la derecha */
+    gap: 1rem 1.5rem; /* Espacio vertical y horizontal entre links */
+  }
+
+  .site-footer__nav-link {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: inherit;
+  }
+  .site-footer__nav-link:hover {
+    color: #e94f30;
+  }
+
+  .site-footer__main-container--bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font-size: var(--step--2);
+  }
+
+  .site-footer__copyright {
+    margin: 0;
+  }
+
+  .site-footer__legal-nav {
+    /* Contenedor para los enlaces legales */
+  }
+
+  .site-footer__legal-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1.5rem; /* Espacio entre "Términos" y "Políticas" */
+  }
+
+  .site-footer__legal-link {
+    text-decoration: none;
+    font-size: var(--step--2);
+    color: inherit;
+  }
+  .site-footer__legal-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  /* --- Media Queries para Responsividad --- */
+  @media (max-width: 992px) {
+    /* Tablets */
+    .site-footer__contact-container {
+      grid-template-columns: 1fr; /* Una columna para la sección de contacto */
+      gap: 2.5rem;
+    }
+    .site-footer__contact-form-wrapper {
+      padding: 1.5rem;
+    }
+    .site-footer__contact-title {
+      font-size: 2rem;
+    }
+
+    .site-footer__main-container--top {
+      flex-direction: column; /* Apilar logo/about y nav */
+      align-items: center; /* Centrar contenido */
+      text-align: center;
+    }
+    .site-footer__about {
+      margin-bottom: 2rem;
+    }
+    .site-footer__nav-list {
+      justify-content: center; /* Centrar navegación */
+      gap: 0.8rem 1.2rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    /* Móviles */
+    .contact-form {
+      grid-template-columns: 1fr; /* Todos los campos del form en una columna */
+    }
+    .contact-form__group--half {
+      grid-column: span 1; /* Mantener una columna */
+    }
+    .contact-form__button {
+      grid-column: span 1; /* Botón ocupa una columna */
+    }
+
+    .site-footer__main-container--bottom {
+      flex-direction: column; /* Apilar copyright y enlaces legales */
+      gap: 0.8rem;
+      text-align: center;
+    }
+    .site-footer__legal-list {
+      justify-content: center; /* Centrar enlaces legales */
+    }
+  }
+</style>

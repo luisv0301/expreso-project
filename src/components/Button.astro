@@ -1,0 +1,66 @@
+---
+const { href, label } = Astro.props;
+---
+
+<a href={href} class="button"
+  ><span class="button__label">{label}</span>
+  <svg
+    width="37"
+    height="37"
+    viewBox="0 0 37 37"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    class="button__icon"
+  >
+    <rect
+      x="0.476562"
+      y="0.746094"
+      width="36"
+      height="36"
+      rx="18"
+      fill="#EC1C24"></rect>
+    <path
+      d="M22.764 15.859L13.864 24.759C13.6806 24.9423 13.4473 25.034 13.164 25.034C12.8806 25.034 12.6473 24.9423 12.464 24.759C12.2806 24.5757 12.189 24.3423 12.189 24.059C12.189 23.7757 12.2806 23.5423 12.464 23.359L21.364 14.459H13.764C13.4806 14.459 13.2431 14.3632 13.0515 14.1715C12.8598 13.9798 12.764 13.7423 12.764 13.459C12.764 13.1757 12.8598 12.9382 13.0515 12.7465C13.2431 12.5548 13.4806 12.459 13.764 12.459H23.764C24.0473 12.459 24.2848 12.5548 24.4765 12.7465C24.6681 12.9382 24.764 13.1757 24.764 13.459V23.459C24.764 23.7423 24.6681 23.9798 24.4765 24.1715C24.2848 24.3632 24.0473 24.459 23.764 24.459C23.4806 24.459 23.2431 24.3632 23.0515 24.1715C22.8598 23.9798 22.764 23.7423 22.764 23.459V15.859Z"
+      fill="white"></path>
+  </svg>
+</a>
+
+<style>
+  .button {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    width: max-content;
+  }
+  .button__label {
+    display: grid;
+    place-items: center;
+    padding-inline: 0.8rem;
+    height: 37px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    cursor: pointer;
+    border-radius: 100vh;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border: none;
+    width: max-content;
+  }
+
+  .button__icon {
+    transition: all 0.3s ease;
+  }
+
+  .button:hover .button__label {
+    background-color: var(--primary-color-on-hover);
+  }
+
+  .button:hover .button__icon {
+    transform: rotate(45deg);
+  }
+
+  .button:hover .button__icon rect {
+    fill: var(--primary-color-on-hover);
+  }
+</style>
