@@ -137,15 +137,18 @@ const servicios = [
   .servicios__tab {
     flex: 1;
     border: 1px solid #ccc;
-    background: #f9f9f9;
+    background-color: #f9f9f9;
     padding: 0.6rem 1.5rem;
     border-radius: 999px;
     cursor: pointer;
-    font-weight: bold;
     text-transform: uppercase;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease-in-out;
   }
 
+  .servicios__tab:hover {
+    background-color: var(--primary-color);
+    color: white;
+  }
   .servicios__tab[aria-selected="true"] {
     background-color: var(--primary-color);
     color: white;
@@ -189,10 +192,6 @@ const servicios = [
   .servicios__descripcion {
     margin-block: 5rem 1rem;
     color: #333;
-  }
-
-  .servicios__img {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 82%, 75% 100%, 0% 100%, 0% 50%);
   }
 
   .services__icon {
@@ -267,6 +266,38 @@ const servicios = [
     });
 
     // Tabs
+
+    const tabs = document.querySelectorAll(".servicios__tab");
+    const panels = document.querySelectorAll(".servicios__panel");
+    const imgs = document.querySelectorAll(".servicios__img");
+    const clipPaths = [
+      "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+    ];
+    const initialClipPath = "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)";
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((t) => {
+          t.setAttribute("aria-selected", "false");
+          t.setAttribute("tabindex", "-1");
+        });
+
+        panels.forEach((p) => (p.style.display = "none"));
+
+        tab.setAttribute("aria-selected", "true");
+        tab.setAttribute("tabindex", "0");
+        panels[index].style.display = "flex";
+
+        const currentImg = imgs[index];
+
+        gsap.set(currentImg, { clipPath: initialClipPath });
+        gsap.to(currentImg, { clipPath: clipPaths[index], duration: 0.5 });
+      });
+    });
+
+    /*
     const tabs = document.querySelectorAll(".servicios__tab");
     const panels = document.querySelectorAll(".servicios__panel");
     const imgs = document.querySelectorAll(".servicios__img");
@@ -297,5 +328,7 @@ const servicios = [
         gsap.to(currentImg, { clipPath: clipPaths[index], duration: 0.5 });
       });
     });
+
+    */
   });
 </script>
