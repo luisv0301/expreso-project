@@ -4,6 +4,9 @@ import servicesHeader from "../assets/services-header.png";
 import { Image } from "astro:assets";
 import Services from "../components/services/Services.astro";
 import Clients from "../components/Clients.astro";
+import Button from "../components/Button.astro";
+import Marquee from "../components/Marquee.astro";
+import Client2 from "../components/Client2.astro";
 ---
 
 <Layout>
@@ -13,13 +16,17 @@ import Clients from "../components/Clients.astro";
         Cada etapa de tu cadena de suministro está en las mejores manos
       </h1>
       <div class="services__content">
-        <p>
-          En Expreso Vitale, entendemos que la logística no es un servicio
-          único, sino un proceso estratégico donde cada fase, logística,
-          transporte y distribución requiere expertise específico. Por eso,
-          diseñamos soluciones a medida para optimizar costos, tiempo y
-          seguridad en cada paso.
-        </p>
+        <div>
+          <p class="services__text">
+            En Expreso Vitale, entendemos que la logística no es un servicio
+            único, sino un proceso estratégico donde cada fase, logística,
+            transporte y distribución requiere expertise específico. Por eso,
+            diseñamos soluciones a medida para optimizar costos, tiempo y
+            seguridad en cada paso.
+          </p>
+          <Button href="#contacto" label="Solicitar cotización gratuita" />
+        </div>
+
         <Image src={servicesHeader} alt="Servicios" class="services__header" />
       </div>
     </header>
@@ -27,62 +34,75 @@ import Clients from "../components/Clients.astro";
   <div>
     <Services />
   </div>
+
   <div>
-    <Clients />
+    <Client2 />
   </div>
-</Layout>
 
-<style>
-  .services__header-container {
-    padding-block: 5rem;
-    background-color: var(--gray);
-  }
-  .services__header-title {
-    max-width: 774px;
-    margin: 0;
-  }
-  .services__content {
-    display: flex;
-    gap: 1rem;
-    align-items: end;
-    margin-top: 4rem;
-  }
-
-  @media (max-width: 1000px) {
-    .services__content {
-      flex-direction: column;
-      margin-top: 1.5rem;
-    }
-
-    .services__content img {
-      object-fit: cover;
-    }
-  }
-
-  @media (max-width: 1000px) {
+  <style>
     .services__header-container {
-      padding-block: 2rem 3rem;
+      padding-block: 5rem;
+      background-color: var(--gray);
     }
-  }
-</style>
+    .services__header-title {
+      margin: 0;
+    }
+    .services__content {
+      display: flex;
+      gap: 1rem;
+      align-items: start;
+      margin-top: 4rem;
+    }
+    .services__text {
+      margin-block: 0 1rem;
+    }
 
-<script>
-  import { gsap } from "gsap";
+    .marquee {
+      display: flex;
+      gap: 2rem;
+    }
+    @media (max-width: 1000px) {
+      .services__content {
+        flex-direction: column;
+        margin-top: 1.5rem;
+      }
 
-  document.addEventListener("astro:page-load", () => {
-    const tl = gsap.timeline();
-    tl.from(".services__header-title", { opacity: 0, y: 50, duration: 0.4 });
+      .services__content img {
+        object-fit: cover;
+      }
+    }
 
-    tl.fromTo(
-      ".services__header",
-      {
-        clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
-      },
-      {
-        clipPath: "polygon(100% 0, 0 0, 0 100%, 100% 100%)",
-        duration: 0.6,
-      },
-      "+=0.1"
-    );
-  });
-</script>
+    @media (max-width: 1000px) {
+      .services__header-container {
+        padding-block: 2rem 3rem;
+      }
+    }
+
+    @media (max-width: 450px) {
+      .services__content img {
+        margin-top: 1.5rem;
+      }
+    }
+  </style>
+
+  <script>
+    import { gsap } from "gsap";
+
+    document.addEventListener("astro:page-load", () => {
+      const tl = gsap.timeline();
+      tl.from(".services__header-title", { opacity: 0, y: 50, duration: 0.4 });
+
+      tl.fromTo(
+        ".services__header",
+        {
+          clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
+        },
+        {
+          clipPath: "polygon(100% 0, 0 0, 0 100%, 100% 100%)",
+          duration: 0.6,
+        },
+        "+=0.1"
+      );
+    });
+  </script>
+</Layout>

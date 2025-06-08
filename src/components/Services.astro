@@ -1,28 +1,37 @@
 ---
 import { Image } from "astro:assets";
 import Button from "./Button.astro";
-import servicesOne from "../assets/services.png";
+import servicesOne from "../assets/service-preview-01.png";
+import servicesTwo from "../assets/service-preview-02.png";
+import servicesThree from "../assets/service-preview-03.png";
+
 const servicios = [
   {
+    name: "Logistica",
     id: "logistica",
     titulo: "Optimizamos tu almacenamiento con tecnología y sustentabilidad",
     descripcion:
-      "Gestionamos tus mercaderías en depósitos inteligentes (12.000 m²) con sistemas WMS y trazabilidad digital. Ideal para reducir costos y mejorar tu cadena de suministro.",
+      "Gestionamos tus mercaderías en depósitos inteligentes con sistemas de trazabilidad digital. Ideal para reducir costos y mejorar tu cadena de suministro.",
     imagen: servicesOne,
+    href: "/servicios/#logistica",
   },
   {
+    name: "Transporte",
     id: "transporte",
     titulo: "Transporte seguro y a tiempo",
     descripcion:
-      "Contamos con una flota moderna y sistema de rastreo satelital para entregas eficientes en todo el país.",
-    imagen: servicesOne,
+      "Desde cargas peligrosas hasta refrigerados. Contamos con una flota moderna y sistema de rastreo satelital para entregas eficientes en todo el país.",
+    imagen: servicesTwo,
+    href: "/servicios/#transporte",
   },
   {
+    name: "Distribución",
     id: "distribucion",
     titulo: "Distribución eficiente y planificada",
     descripcion:
       "Nuestra red de distribución permite entregas ágiles y controladas desde el centro logístico hasta el punto de venta.",
-    imagen: servicesOne,
+    imagen: servicesThree,
+    href: "/servicios/#distribucion",
   },
 ];
 ---
@@ -62,7 +71,7 @@ const servicios = [
           aria-controls={`panel-${s.id}`}
           tabindex={index === 0 ? "0" : "-1"}
         >
-          {s.id.toUpperCase()}
+          {s.name.toUpperCase()}
         </button>
       ))
     }
@@ -88,7 +97,7 @@ const servicios = [
           <div class="servicios__texto">
             <h2 class="servicios__titulo">{s.titulo}</h2>
             <p class="servicios__descripcion">{s.descripcion}</p>
-            <Button href="#" label="Conocer más" />
+            <Button href={s.href} label="Conocer más" />
           </div>
         </div>
       ))
@@ -151,18 +160,25 @@ const servicios = [
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     gap: 2rem;
   }
 
   .servicios__texto {
-    flex: 2;
+    flex: 1;
+    max-width: 650px;
   }
 
-  .servicios__imagen img {
+  .servicios__imagen {
+    aspect-ratio: 1/1;
+    overflow: hidden;
     flex: 1;
+    max-width: 500px;
   }
   .servicios__imagen img {
     object-fit: cover;
+    width: 100%;
+    height: 100%;
   }
 
   .servicios__titulo {
@@ -176,7 +192,11 @@ const servicios = [
   }
 
   .servicios__img {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 82%, 0% 100%);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 82%, 75% 100%, 0% 100%, 0% 50%);
+  }
+
+  .services__icon {
+    min-width: 180px;
   }
   @media (max-width: 750px) {
     .services__text {
@@ -226,12 +246,22 @@ const servicios = [
 
   document.addEventListener("astro:page-load", () => {
     gsap.from(".services__title", {
-      scrollTrigger: ".services__title",
-      x: -100,
+      scrollTrigger: {
+        trigger: ".services__title",
+        start: "top center",
+        end: "bottom center",
+        scrub: 1,
+      },
+      x: -200,
     });
 
     gsap.from(".services__icon", {
-      scrollTrigger: ".services__icon",
+      scrollTrigger: {
+        trigger: ".services__title",
+        start: "top center",
+        end: "bottom center",
+        scrub: 1,
+      },
       x: -100,
       scaleX: 0,
     });
@@ -241,11 +271,12 @@ const servicios = [
     const panels = document.querySelectorAll(".servicios__panel");
     const imgs = document.querySelectorAll(".servicios__img");
     const clipPaths = [
-      "polygon(0% 0%, 100% 0%, 100% 82%, 0% 100%)",
-      "polygon(0% 0%, 100% 44%, 0% 96%, 16% 46%)",
-      "polygon(0% 0%, 100% 100%, 0% 100%, 100% 0%)",
+      "polygon(0% 0%, 100% 0%, 100% 82%, 75% 100%, 0% 100%, 0% 50%)",
+      "polygon(76% 0%, 100% 20%, 100% 100%, 50% 100%, 0% 100%, 0% 0%)",
+      "polygon(19% 0%, 100% 0%, 100% 82%, 100% 100%, 0% 100%, 0% 24%)",
     ];
-    const initialClipPath = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
+    const initialClipPath =
+      "polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%, 0% 0%)";
 
     tabs.forEach((tab, index) => {
       tab.addEventListener("click", () => {

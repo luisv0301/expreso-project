@@ -1,0 +1,229 @@
+---
+// src/components/Marquee.astro
+import type { HTMLAttributes } from "astro/types";
+
+export interface Props extends HTMLAttributes<"div"> {
+  /** Velocidad de la marquesina. Es la duración en segundos que tarda un elemento en recorrer su propio ancho. */
+  speed?: number;
+  /** Dirección del desplazamiento ('left' o 'right'). */
+  direction?: "left" | "right";
+  /** Si la animación debe pausarse cuando el cursor está sobre la marquesina. */
+  pauseOnHover?: boolean;
+  /** Espacio entre los elementos repetidos de la marquesina (ej: '1rem', '20px'). */
+  gap?: string;
+}
+
+const {
+  speed = 20, // Segundos
+  direction = "left",
+  pauseOnHover = false,
+  gap = "2rem",
+  ...attrs // Resto de atributos HTML (id, class, etc.)
+} = Astro.props;
+
+const uniqueId = `marquee-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<div
+  id={uniqueId}
+  class:list={["marquee-wrapper", attrs.class]}
+  data-direction={direction}
+  data-pause-on-hover={pauseOnHover}
+  style={`--marquee-gap: ${gap};`}
+  {...attrs}
+>
+  {
+    /* Contenedor del contenido original (slot), usado como plantilla para medir y clonar */
+  }
+  <div
+    class="marquee-content-template"
+    style="display: none;"
+    aria-hidden="true"
+  >
+    <slot />
+  </div>
+  {
+    /* Contenedor donde se colocarán los elementos animados (original y clones) */
+  }
+  <div class="marquee-content-container">
+    {/* El contenido se generará dinámicamente por el script */}
+  </div>
+</div>
+
+<style>
+  .marquee-wrapper {
+    overflow: hidden;
+    width: 100%;
+    display: flex; /* Asegura que el contenedor tenga dimensiones correctas */
+    position: relative; /* Contexto para elementos internos si es necesario */
+    --marquee-gap: 2rem;
+  }
+
+  .marquee-content-container {
+    display: flex; /* Alinea los items clonados horizontalmente */
+    flex-shrink: 0; /* Evita que el contenedor se encoja */
+    align-items: center; /* Centra verticalmente los items si tienen alturas diferentes */
+    width: max-content; /* Asegura que el contenedor sea lo suficientemente ancho */
+  }
+
+  /* Estilo aplicado a cada item (original clonado) en la marquesina */
+  .marquee-item {
+    flex-shrink: 0; /* Evita que los items individuales se encojan */
+    display: inline-flex; /* Permite que los items se alineen y tomen el tamaño de su contenido */
+    align-items: center;
+    /* El gap se aplica como margin-right en el script */
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  // Se ejecuta cuando la página se carga o después de una transición de vista
+  document.addEventListener("astro:page-load", () => {
+    const userSpeed = 10;
+    const userDirection = "left";
+    const userPauseOnHover = true;
+    const userGap = "2rem";
+    const uniqueId = document?.querySelector(".marquee-wrapper").id;
+
+    const marqueeWrapper = document.getElementById(uniqueId);
+    if (!marqueeWrapper) return;
+
+    const contentTemplate = marqueeWrapper.querySelector(
+      ".marquee-content-template"
+    );
+    const contentContainer = marqueeWrapper.querySelector(
+      ".marquee-content-container"
+    );
+
+    if (!contentTemplate || !contentContainer) {
+      console.error("Marquee: Elementos base no encontrados.");
+      return;
+    }
+
+    let currentTween = null;
+    let currentResizeObserver = null;
+
+    function setupMarqueeAnimation() {
+      if (currentTween) {
+        currentTween.kill();
+      }
+      while (contentContainer.firstChild) {
+        contentContainer.removeChild(contentContainer.firstChild);
+      }
+
+      // Medir el ancho del contenido original desde la plantilla
+      const tempMeasureDiv = document.createElement("div");
+      tempMeasureDiv.style.display = "inline-flex";
+      tempMeasureDiv.style.visibility = "hidden";
+      tempMeasureDiv.style.position = "absolute";
+      // Poblar el div de medición con clones de los hijos de contentTemplate
+      contentTemplate.childNodes.forEach((node) => {
+        tempMeasureDiv.appendChild(node.cloneNode(true));
+      });
+      document.body.appendChild(tempMeasureDiv);
+      let itemWidth = tempMeasureDiv.offsetWidth;
+      document.body.removeChild(tempMeasureDiv); // Limpiar el div de medición
+
+      if (itemWidth === 0 && contentTemplate.childNodes.length > 0) {
+        console.warn(
+          `Marquee (#${uniqueId}): El ancho del contenido es 0. Verifica el contenido del slot.`
+        );
+        if (
+          contentTemplate.textContent.trim() === "" &&
+          contentTemplate.children.length === 0
+        ) {
+          console.error(
+            `Marquee (#${uniqueId}): Contenido vacío, animación detenida.`
+          );
+          return;
+        }
+        if (itemWidth === 0) return;
+      }
+
+      const wrapperWidth = marqueeWrapper.offsetWidth;
+      const gapValue =
+        parseFloat(gsap.getProperty(marqueeWrapper, "2rem")) || 0;
+      const itemWidthWithGap = itemWidth + gapValue;
+
+      if (itemWidthWithGap <= 0) {
+        console.error(
+          `Marquee (#${uniqueId}): Ancho del item + gap es <= 0. Animación detenida.`
+        );
+        return;
+      }
+
+      const numClonesNeeded = Math.ceil(wrapperWidth / itemWidthWithGap) + 2;
+
+      for (let i = 0; i < numClonesNeeded; i++) {
+        const itemWrapper = document.createElement("div");
+        itemWrapper.classList.add("marquee-item");
+        itemWrapper.style.marginRight = `${gapValue}px`;
+
+        // CORRECCIÓN: Poblar itemWrapper con un clon de los hijos de contentTemplate.
+        // Esto maneja correctamente cualquier contenido del slot.
+        contentTemplate.childNodes.forEach((childNode) => {
+          itemWrapper.appendChild(childNode.cloneNode(true));
+        });
+
+        if (i > 0) itemWrapper.setAttribute("aria-hidden", "true");
+        contentContainer.appendChild(itemWrapper);
+      }
+
+      const cycleDuration = userSpeed;
+      const animationDistance = itemWidthWithGap * 10;
+      const totalAnimationTime =
+        cycleDuration * (animationDistance / itemWidth); // Ajuste: usar itemWidth aquí
+
+      gsap.set(contentContainer, { x: 0 });
+
+      currentTween = gsap.to(contentContainer, {
+        x:
+          userDirection === "left"
+            ? `-=${animationDistance}`
+            : `+=${animationDistance}`,
+        duration: totalAnimationTime,
+        ease: "none",
+        repeat: -1,
+        modifiers: {
+          x: gsap.utils.unitize((value) => {
+            return (
+              parseFloat(value) %
+              (userDirection === "left" ? -itemWidthWithGap : itemWidthWithGap)
+            );
+          }),
+        },
+      });
+
+      if (userPauseOnHover) {
+        marqueeWrapper.addEventListener("mouseenter", () =>
+          currentTween?.pause()
+        );
+        marqueeWrapper.addEventListener("mouseleave", () =>
+          currentTween?.play()
+        );
+      }
+    }
+
+    setTimeout(setupMarqueeAnimation, 50);
+
+    let resizeDebounceTimeout;
+    currentResizeObserver = new ResizeObserver(() => {
+      clearTimeout(resizeDebounceTimeout);
+      resizeDebounceTimeout = setTimeout(() => {
+        if (!document.body.contains(marqueeWrapper)) {
+          currentResizeObserver?.disconnect();
+          return;
+        }
+        setupMarqueeAnimation();
+      }, 200);
+    });
+
+    currentResizeObserver.observe(marqueeWrapper);
+
+    document.addEventListener("astro:before-swap", () => {
+      if (currentTween) currentTween.kill();
+      if (currentResizeObserver) currentResizeObserver.disconnect();
+    });
+  }); // Fin de astro:page-load
+</script>

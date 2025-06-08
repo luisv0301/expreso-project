@@ -1,9 +1,12 @@
 ---
 import { Image } from "astro:assets";
 import serviceOne from "../../assets/service-one.png";
+import serviceTwo from "../../assets/service-2.png";
+import serviceThree from "../../assets/service-1.png";
 
 const servicesData = [
   {
+    id: "logistica",
     category: "LOGÍSTICA",
     title: "La Inteligencia Detrás de Cada Operación",
     subtitle:
@@ -17,6 +20,7 @@ const servicesData = [
     imageAlt: "Interior de un almacén de logística con operarios trabajando.",
   },
   {
+    id: "transporte",
     category: "TRANSPORTE",
     title: "Movemos Tus Cargas con Precisión Industrial",
     subtitle: "Potencia controlada, seguridad certificada.",
@@ -24,10 +28,11 @@ const servicesData = [
       "Tecnología en movimiento: Rastreo satelital homologado por CESVI, vehículos con ADAS (frenos autónomos, cámaras 360°).",
       "Sustentabilidad: Unidades a gas/eléctricas para reducir tu huella de carbono.",
     ],
-    imageUrl: serviceOne, // REEMPLAZAR
+    imageUrl: serviceTwo, // REEMPLAZAR
     imageAlt: "Flota de camiones de transporte en carretera.",
   },
   {
+    id: "distribucion",
     category: "Distribución",
     title: "Entregas que Generan Confianza",
     subtitle: "Última milla impecable, satisfacción garantizada.",
@@ -36,7 +41,7 @@ const servicesData = [
       "Entregas críticas: Cajeros automáticos a entidades financieras con custodia armada opcional.",
       "Última milla urbana: Flota ágil para entregas B2C o retail (ej: supermercados).",
     ],
-    imageUrl: serviceOne, // REEMPLAZAR
+    imageUrl: serviceThree, // REEMPLAZAR
     imageAlt: "Flota de camiones de transporte en carretera.",
   },
 ];
@@ -63,6 +68,7 @@ const servicesData = [
       servicesData.map((service, index) => (
         <article
           class={`key-services__item key-services__item--${index % 2 === 0 ? "even" : "odd"}`}
+          id={service.id}
         >
           <div class="key-services__content">
             <span class="key-services__category">
@@ -196,8 +202,6 @@ const servicesData = [
   }
 
   .key-services__image-wrapper {
-    /* Contenedor de la imagen */
-    border-radius: 8px; /* Opcional: si quieres bordes redondeados para la imagen */
     overflow: hidden; /* Para que el border-radius afecte a la imagen */
     line-height: 0; /* Para eliminar espacio extra si la imagen es inline-block */
   }

@@ -69,10 +69,12 @@ import Button from "../components/Button.astro";
               diseñamos soluciones a medida para optimizar costos, tiempo y
               seguridad en cada paso.
             </p>
-            <Button href="#" label="Leer noticia" />
+            <Button href="/post" label="Leer noticia" />
           </div>
         </div>
-        <Image src={newsOne} alt="Noticias" class="news__image" />
+        <div class="news__image">
+          <Image src={newsOne} alt="Noticias" />
+        </div>
       </div>
     </header>
   </div>
@@ -93,20 +95,28 @@ import Button from "../components/Button.astro";
   .news__title {
     font-size: var(--step-3);
     margin-block: 0 0.5rem;
+    position: relative;
   }
 
   .news__title::before {
-    display: inline-block;
     content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(-186%, -50%);
     aspect-ratio: 1 / 1;
     background-color: var(--primary-color);
     width: 1rem;
-    margin-right: 0.5rem;
   }
 
   .news__text {
     margin-block: 4rem 1.5rem;
     max-width: 600px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: clip;
   }
   .news__main-title {
     margin: 0;
@@ -117,30 +127,27 @@ import Button from "../components/Button.astro";
     gap: 0.5rem;
   }
   .news__image {
-    position: absolute;
-    top: 0;
-    left: 0;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+  }
+  .news__image img {
+    object-fit: cover;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    z-index: -1;
   }
   .news__content {
     display: flex;
-    gap: 1rem;
-    justify-content: space-between;
-    align-items: end;
-    position: relative;
-    isolation: isolate;
-    padding: 1rem;
   }
 
+  .news__content > * {
+    flex: 1;
+  }
   .news__image-container {
     flex: 1;
   }
   .news__info {
     background: var(--white);
-    padding: 2rem;
+    padding: 3rem;
   }
 
   .news__description {
@@ -167,12 +174,19 @@ import Button from "../components/Button.astro";
   }
 
   @media (max-width: 450px) {
+    .news__title {
+      font-size: var(--step-2);
+    }
     .news__text {
       margin-top: 1.5rem;
     }
 
     .news__list {
       padding-block: 4rem;
+    }
+
+    .news__info {
+      padding: 1.5rem 1.5rem 1.5rem 3rem;
     }
   }
 </style>

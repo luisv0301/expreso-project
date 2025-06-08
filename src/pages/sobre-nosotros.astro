@@ -5,10 +5,14 @@ import Clients from "../components/Clients.astro";
 import { Image } from "astro:assets";
 import teamOne from "../assets/team-1.png";
 import teamTwo from "../assets/team-2.png";
+import team from "../assets/team-bg.png";
+import Button from "../components/Button.astro";
+import Client2 from "../components/Client2.astro";
 ---
 
 <Layout>
   <header class="about__container">
+    <Image src={team} alt="" class="about__img-bg" />
     <svg
       width="1060"
       height="517"
@@ -26,31 +30,55 @@ import teamTwo from "../assets/team-2.png";
     </svg>
 
     <div class="about container__global">
-      <p class="about__text">
-        En Expreso Vitale, nuestra historia es la base de nuestro compromiso.
-        Todo comenzó cuando “Don Juan”, un hombre de familia y visionario,
-        arrancó su sueño con un solo vehículo: un Bedford modelo 60. Junto a su
-        hijo mayor, recorrió caminos, entregó cargas y sembró los valores que
-        hoy nos definen: trabajo duro, responsabilidad y cercanía con el
-        cliente.
-      </p>
+      <div>
+        <p class="about__text">
+          No solo capacitamos a nuestros conductores y conductoras con las
+          máximas habilitaciones exigidas por la ley, sino que también
+          fomentamos un entorno laboral inclusivo, donde la experiencia y la
+          profesionalidad son nuestro sello.
+        </p>
+        <Button label="Solicitar cotización gratuita" href="#contacto" />
+      </div>
+
       <h1 class="about__title">
         Más de <span class="about__highlight">30 años moviendo el futuro</span> ,
         con la esencia de una empresa familiar
       </h1>
     </div>
   </header>
-  <Clients />
+  <Client2 />
+  <div class="environment__container--overflow">
+    <section class="environment__container">
+      <div class="environment container__global">
+        <h2 class="environment__title">Almacenamiento Responsable</h2>
+        <div class="environment__content">
+          <div>
+            <p class="environment__fact">4000m²</p><p>Depósitos sustentables</p>
+          </div>
+          <div class="environment__text">
+            <p>
+              En Expreso Vitale, hemos creado depósitos sustentables que
+              combinan capacidad, tecnología y compromiso ecológico.
+              próximamente sumaremos 4.000 m² especializados en cargas
+              peligrosas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
   <section class="team container__global">
     <div class="team__content">
-      <h2 class="team__title">Equipo profesional</h2>
+      <h2 class="team__title">Nuestra historia</h2>
       <div>
         <Image src={teamOne} alt="" class="team__img-small" />
         <p>
-          No solo capacitamos a nuestros conductores y conductoras con las
-          máximas habilitaciones exigidas por la ley, sino que también
-          fomentamos un entorno laboral inclusivo, donde la experiencia y la
-          profesionalidad son nuestro sello.
+          En Expreso Vitale, nuestra historia es la base de nuestro compromiso.
+          Todo comenzó cuando “Don Juan”, un hombre de familia y visionario,
+          arrancó su sueño con un solo vehículo: un Bedford modelo 60. Junto a
+          su hijo mayor, recorrió caminos, entregó cargas y sembró los valores
+          que hoy nos definen: trabajo duro, responsabilidad y cercanía con el
+          cliente.
         </p>
       </div>
     </div>
@@ -58,6 +86,7 @@ import teamTwo from "../assets/team-2.png";
       <Image src={teamTwo} alt="" class="team__img-main" />
     </div>
   </section>
+
   <div class="news__container">
     <section class="news container__global">
       <h2 class="news__title">Noticias</h2>
@@ -75,20 +104,29 @@ import teamTwo from "../assets/team-2.png";
     isolation: isolate;
   }
 
+  .about__img-bg {
+    width: 100%;
+    position: absolute;
+    inset: 0;
+    object-fit: cover;
+    height: 100%;
+    z-index: -1;
+  }
   .about__svg {
     position: absolute;
     top: 0;
     right: -3rem;
-    z-index: -1;
+    z-index: 0;
   }
   .about {
-    height: 45vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 1rem;
-    padding-block: 3rem;
+    padding-block: 4rem;
     overflow-y: hidden;
+    min-height: 80vh;
+    box-sizing: border-box;
   }
 
   .about__title {
@@ -97,6 +135,7 @@ import teamTwo from "../assets/team-2.png";
   .about__text {
     max-width: 550px;
     opacity: 0.75;
+    margin-bottom: 1rem;
   }
   .about > * {
     margin-top: 0;
@@ -108,7 +147,7 @@ import teamTwo from "../assets/team-2.png";
   .team {
     display: flex;
     gap: 1rem;
-    padding-block: 5rem;
+    padding-block: 8rem 5rem;
   }
   .team img {
     object-fit: cover;
@@ -134,6 +173,51 @@ import teamTwo from "../assets/team-2.png";
     background-color: var(--white);
     padding-block: 8rem;
   }
+  /* Environment */
+  .environment__container {
+    background: url("../assets/environment.png") no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
+    padding-block: 5rem;
+    height: 700px;
+    box-sizing: border-box;
+  }
+  .environment__container--overflow {
+    overflow: hidden;
+    height: 700px;
+
+    box-sizing: border-box;
+  }
+  .environment {
+    height: 100%;
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    color: var(--white);
+  }
+  .environment__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+  }
+  .environment__title {
+    color: var(--white);
+    margin: 0;
+    font-size: var(--step-5);
+  }
+  .environment__fact {
+    margin: 0;
+    font-size: var(--step-7);
+    line-height: 1;
+  }
+
+  .environment__text {
+    max-width: 340px;
+  }
+
+  .environment__text p {
+    margin-bottom: 1rem;
+  }
 
   .news__title {
     font-size: var(--step-0);
@@ -144,6 +228,18 @@ import teamTwo from "../assets/team-2.png";
   .team__img-main,
   .team__img-small {
     clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+  }
+
+  @media (max-width: 750px) {
+    .environment__content {
+      flex-direction: column;
+      align-items: start;
+      gap: 1.5rem;
+    }
+
+    .environment__text {
+      max-width: 100%;
+    }
   }
 
   @media (max-width: 580px) {
@@ -162,6 +258,24 @@ import teamTwo from "../assets/team-2.png";
 
     .about {
       height: auto;
+    }
+
+    .about__container::before {
+      content: "";
+      display: block;
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        #050505 0%,
+        rgba(5, 5, 5, 0.41) 12.35%,
+        rgba(5, 5, 5, 0) 30.84%
+      );
+    }
+
+    .about__svg {
+      top: -2rem;
+      right: -21rem;
     }
   }
 

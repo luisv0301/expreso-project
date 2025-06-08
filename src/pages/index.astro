@@ -11,6 +11,10 @@ import Testimony2 from "../components/Testimony2.astro";
 import Testimony from "../components/Testimony.astro";
 import Services from "../components/Services.astro";
 import Clients from "../components/Clients.astro";
+import videoBg from "../assets/video-bg.mp4";
+import Industries from "../components/Industries.astro";
+
+import Client2 from "../components/Client2.astro";
 
 const clientes = [
   { alt: "Logo de Berry", src: "/logos/berry.svg" },
@@ -25,7 +29,17 @@ const clientes = [
 <Layout>
   <header>
     <div class="header">
-      <Image src={headerbg} alt="" class="header__bg" />
+      <video
+        loop
+        muted
+        playsinline
+        preload="auto"
+        class="header__bg"
+        poster={headerbg.src || undefined}
+      >
+        <source src={videoBg} type="video/mp4" />
+        Tu navegador no soporta videos.
+      </video>
       <div class="header__content container__global">
         <h1 class="header__title">Logística eficiente, segura y sustentable</h1>
         <p class="header__subtitle">
@@ -33,7 +47,7 @@ const clientes = [
           con soluciones integrales para el movimiento y almacenamiento de
           mercaderías
         </p>
-        <Button href="#" label="Solicitar cotización gratuita" />
+        <Button href="#contacto" label="Solicitar cotización gratuita" />
       </div>
     </div>
     <div class="header__benefits">
@@ -43,46 +57,35 @@ const clientes = [
   <div>
     <Services />
   </div>
-  <section class="clientes container__global">
-    <div class="clientes__encabezado">
-      <h2 class="clientes__titulo">Industrias</h2>
-    </div>
-
-    <div class="clientes__logos">
-      {
-        clientes.map((cliente) => (
-          <div class="clientes__logo-item">
-            <img
-              class="clientes__logo-img"
-              src={logo.src}
-              alt={cliente.alt}
-              loading="lazy"
-            />
-          </div>
-        ))
-      }
-    </div>
+  <section>
+    <Industries />
   </section>
 
-  <section class="environment__container">
-    <div class="environment container__global">
-      <h2 class="environment__title">Almacenamiento Responsable</h2>
-      <div class="environment__content">
-        <div>
-          <p class="environment__fact">4000m²</p><p>Depósitos sustentables</p>
-        </div>
-        <div class="environment__text">
-          <p>
-            En Expreso Vitale, hemos creado depósitos sustentables que combinan
-            capacidad, tecnología y compromiso ecológico. próximamente sumaremos
-            4.000 m² especializados en cargas peligrosas,
-          </p>
-          <Button href="#" label="Conocer más" />
+  <div class="environment__container--overflow">
+    <section class="environment__container">
+      <div class="environment container__global">
+        <h2 class="environment__title">
+          Expertos en el manejo responsable de cargas peligrosas
+        </h2>
+        <div class="environment__content">
+          <div>
+            <p class="environment__fact">70%</p><p>de nuestra operación</p>
+          </div>
+          <div class="environment__text">
+            <p>
+              Nos especializamos en transporte de cargas peligrosas. Nuestra
+              flota cumple con los más altos estándares de seguridad y
+              normativas legales, asegurando que tus mercancías críticas lleguen
+              a destino sin riesgos.
+            </p>
+            <Button href="/servicios" label="Conocer más" />
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-  <Clients />
+    </section>
+  </div>
+
+  <Client2 />
   <section>
     <Testimony2 />
   </section>
@@ -156,10 +159,45 @@ const clientes = [
 
   /* Environment */
   .environment__container {
-    background: url("../assets/environment.png") no-repeat center center;
+    background: url("../assets/danger-load.jpg") no-repeat center center;
     background-size: cover;
-    padding-block: 4rem;
-    height: 600px;
+    background-attachment: fixed;
+    padding-block: 5rem;
+    height: 700px;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .environment__container::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      #050505 -14.97%,
+      rgba(5, 5, 5, 0.41) 13.87%,
+      rgba(5, 5, 5, 0) 45.11%
+    );
+  }
+
+  .environment__container::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(
+      0deg,
+      #050505 -5.93%,
+      rgba(5, 5, 5, 0.41) 14.83%,
+      rgba(5, 5, 5, 0) 45.99%
+    );
+  }
+
+  .environment__container--overflow {
+    overflow: hidden;
+    height: 680px;
+    box-sizing: border-box;
   }
   .environment {
     height: 100%;
@@ -167,6 +205,8 @@ const clientes = [
     display: flex;
     justify-content: space-between;
     color: var(--white);
+    position: relative;
+    z-index: 2;
   }
   .environment__content {
     display: flex;
@@ -276,10 +316,43 @@ const clientes = [
 
 <script>
   import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
   document.addEventListener("astro:page-load", (event) => {
-    let tl = gsap.timeline();
+    let tl = gsap.timeline({
+      onComplete: () => {
+        const video = document.querySelector(".header__bg");
+        if (video) {
+          video.play();
+        }
+      },
+    });
     tl.from(".header__title", { opacity: 0, y: 50, duration: 0.3 });
     tl.from(".header__subtitle", { opacity: 0, y: 50, duration: 0.3 });
     tl.to(".header__bg", { filter: "blur(0px)", duration: 0.8 });
+
+    /* Environment
+    const environment = document.querySelector(".environment__container");
+    const heightDiff =
+      environment?.offsetHeight - environment?.parentElement.offsetHeight;
+
+    gsap.fromTo(
+      environment,
+      {
+        y: environment.parentElement.offsetHeight - environment.offsetHeight,
+      },
+      {
+        y: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: environment.parentElement,
+          scrub: true,
+        },
+      }
+    );
+
+    */
   });
 </script>

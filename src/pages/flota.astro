@@ -1,38 +1,66 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Benefits from "../components/Benefits.astro";
+import { Image } from "astro:assets";
+
+import flotaOne from "../assets/flota-01.png";
+import flotaTwo from "../assets/flota-02.png";
+import flotaThree from "../assets/flota-03.png";
+import flotaFour from "../assets/flota-04.png";
+
+const flotas = [
+  flotaOne,
+  flotaTwo,
+  flotaThree,
+  flotaFour,
+  flotaOne,
+  flotaTwo,
+  flotaThree,
+  flotaFour,
+];
 ---
 
 <Layout>
   <div class="flota__description container__global">
+    <svg
+      width="184"
+      height="25"
+      viewBox="0 0 184 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      class="flota__icon"
+    >
+      <path
+        d="M183.215 12.8189L182.322 11.8843L171.274 0.836426L169.404 2.70677L178.219 11.5191L0 11.5191V14.1186L178.22 14.1186L169.405 22.9322L171.274 24.8013L182.322 13.7534L183.215 12.8189Z"
+        fill="#EC1C24"></path>
+    </svg>
     <div>
-      <svg
-        width="184"
-        height="25"
-        viewBox="0 0 184 25"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="flota__icon"
-      >
-        <path
-          d="M183.215 12.8189L182.322 11.8843L171.274 0.836426L169.404 2.70677L178.219 11.5191L0 11.5191V14.1186L178.22 14.1186L169.405 22.9322L171.274 24.8013L182.322 13.7534L183.215 12.8189Z"
-          fill="#EC1C24"></path>
-      </svg>
       <h1 class="flota__title">
         Una flota diseñada para cada necesidad logística
       </h1>
+      <p>
+        Contamos con una flota diversa y especializada, optimizada para brindar
+        soluciones eficientes en cada etapa de tu cadena de suministro. Desde
+        vehículos ágiles para entregas urbanas hasta unidades pesadas para
+        cargas peligrosas, cada uno está equipado con tecnología de punta y
+        mantenimiento riguroso para garantizar seguridad, puntualidad y
+        sustentabilidad.
+      </p>
     </div>
-
-    <p>
-      Contamos con una flota diversa y especializada, optimizada para brindar
-      soluciones eficientes en cada etapa de tu cadena de suministro. Desde
-      vehículos ágiles para entregas urbanas hasta unidades pesadas para cargas
-      peligrosas, cada uno está equipado con tecnología de punta y mantenimiento
-      riguroso para garantizar seguridad, puntualidad y sustentabilidad.
-    </p>
   </div>
   <div class="benefits__list">
     <Benefits />
+  </div>
+  <div class="gallery">
+    <ul class="gallery__list container__global" id="gallery__list">
+      {
+        flotas.map((flota) => (
+          <li>
+            <Image src={flota} alt="" class="flota__img" />
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </Layout>
 
@@ -42,23 +70,108 @@ import Benefits from "../components/Benefits.astro";
   }
   .flota__description {
     padding-block: 5rem;
+    display: flex;
+    gap: 1rem;
   }
   .benefits__list {
+    padding-top: 4rem;
     background-color: var(--black);
   }
 
   .flota__icon {
-    float: left;
-    margin-right: 1rem;
+    min-width: 180px;
     opacity: 0;
     transform: translateX(-150px) scaleX(0.25);
+  }
+
+  .gallery {
+    background-color: var(--black);
+  }
+
+  .gallery__list {
+    margin-block: 0;
+    padding-block: 8rem;
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .gallery__list img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  .gallery__list li {
+    break-inside: avoid; /* Asegura que el elemento se comporte correctamente en el flujo de columnas */
+    width: 100%;
+  }
+
+  .gallery__list li:nth-child(3n) {
+    grid-column: span 2;
+  }
+
+  @media (max-width: 600px) {
+    .flota__description {
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 450px) {
+    .gallery__list {
+      grid-template-columns: 1fr;
+    }
+
+    .gallery__list li:nth-child(3n) {
+      grid-column: span 1;
+    }
+
+    .gallery__list {
+      padding-block: 6rem;
+    }
   }
 </style>
 
 <script>
   import { gsap } from "gsap";
+  import MagicGrid from "magic-grid";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
 
   document.addEventListener("astro:page-load", (event) => {
     gsap.to(".flota__icon", { x: 0, opacity: 1, scaleX: 1, duration: 0.4 });
+
+    const galleryItems = document.querySelectorAll(".flota__img");
+
+    galleryItems.forEach((item, index) => {
+      gsap.to(item, {
+        opacity: 1,
+        scale: 1,
+        scrollTrigger: {
+          trigger: item,
+          start: "top center",
+          end: "bottom center",
+          scrub: true,
+        },
+      });
+    });
+
+    /*
+    Magic Grid
+    let magicGrid = new MagicGrid({
+      container: "#gallery__list", // Required. Can be a class, id, or an HTMLElement.
+      animate: true,
+      gutter: 30,
+      static: true,
+      useMin: true,
+    });
+
+    magicGrid.listen();
+    */
   });
 </script>

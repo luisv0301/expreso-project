@@ -21,6 +21,8 @@
     "astro": "^5.8.0",
     "astro-portabletext": "^0.11.1",
     "gsap": "^3.13.0",
+    "magic-grid": "^3.4.7",
+    "nodemailer": "^7.0.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-is": "^19.1.0",

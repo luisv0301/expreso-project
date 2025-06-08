@@ -6,6 +6,7 @@ export const postType = defineType({
   fields: [
     defineField({
       name: "title",
+      title: "Titulo",
       type: "string",
     }),
     defineField({
@@ -19,6 +20,7 @@ export const postType = defineType({
 
     defineField({
       name: "mainImage",
+      title: "Imagen Principal",
       type: "image",
       options: {
         hotspot: true,
@@ -27,17 +29,19 @@ export const postType = defineType({
         {
           name: "alt",
           type: "string",
-          title: "Alternative Text",
+          title: "texto alternativo",
         },
       ],
     }),
 
     defineField({
       name: "publishedAt",
+      title: "Publicado el",
       type: "datetime",
     }),
     defineField({
       name: "body",
+      title: "Contenido",
       type: "blockContent",
     }),
   ],

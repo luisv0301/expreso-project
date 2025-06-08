@@ -1,0 +1,154 @@
+---
+import { Image } from "astro:assets";
+import industryOne from "../assets/industry-01.svg";
+import industryTwo from "../assets/industry-02.svg";
+import industryThree from "../assets/industry-03.svg";
+import industryFour from "../assets/industry-04.svg";
+import industryFive from "../assets/industry-05.svg";
+import industrySix from "../assets/industry-06.svg";
+
+const clientes = [
+  { insdusty: "Plásticos", src: industryOne },
+  { insdusty: "Adhesivos", src: industryTwo },
+  { insdusty: "Construcción", src: industryThree },
+  { insdusty: "Agroquímico", src: industryFour },
+  { insdusty: "Pintura", src: industryFive },
+  { insdusty: "Alimento", src: industrySix },
+];
+---
+
+<div class="clientes__container">
+  <section class="clientes container__global">
+    <div class="clientes__encabezado">
+      <h2 class="clientes__titulo--animation">Industrias</h2>
+    </div>
+    <div class="clientes__slider-container--industries">
+      <div class="clientes__slider">
+        <div class="clientes__logos">
+          {
+            clientes.map((cliente) => (
+              <div class="clientes__logo-item">
+                <Image
+                  class="clientes__logo-img"
+                  src={cliente.src}
+                  alt={cliente.insdusty}
+                />
+                <p class="clientes__logo-text">{cliente.insdusty}</p>
+              </div>
+            ))
+          }
+        </div>
+        <div class="clientes__logos">
+          {
+            clientes.map((cliente) => (
+              <div class="clientes__logo-item">
+                <Image
+                  class="clientes__logo-img"
+                  src={cliente.src}
+                  alt={cliente.insdusty}
+                />
+                <p class="clientes__logo-text">{cliente.insdusty}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  .clientes__slider {
+    display: grid;
+    grid-auto-flow: column;
+  }
+
+  .clientes__titulo--animation {
+    text-transform: uppercase;
+  }
+  .clientes {
+    padding-block: 8rem 0;
+    overflow-x: clip;
+  }
+
+  .clientes__encabezado {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .clientes__titulo {
+    font-size: var(--step-0);
+    text-transform: uppercase;
+    margin: 0;
+    flex: 1;
+  }
+
+  .clientes__descripcion {
+    flex: 1;
+    margin: 0;
+    max-width: 450px;
+  }
+
+  .clientes__logos {
+    display: grid;
+    grid-auto-flow: column;
+    border-block: 1px solid var(--border-color);
+    min-width: var(--max-width);
+  }
+  .clientes__logo-text {
+    text-transform: uppercase;
+  }
+  .clientes__logo-item {
+    box-sizing: border-box;
+    display: grid;
+    gap: 1rem;
+    grid-auto-flow: column;
+    place-content: center;
+    transition: all 0.4s ease-in-out;
+    padding-inline: 2rem;
+    border-inline: 1px solid var(--border-color);
+    width: 100%;
+    padding: 4rem 1.2rem;
+  }
+
+  @media (max-width: 500px) {
+    .clientes__encabezado {
+      flex-direction: column;
+    }
+
+    .clientes {
+      padding-block: 4rem 0;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("astro:page-load", () => {
+    const sliderIndustries = document.querySelector(
+      ".clientes__slider-container--industries"
+    );
+    const userPauseOnHoverIndustries = true;
+
+    const currentTweenIndustries = gsap.to(sliderIndustries, {
+      xPercent: -100,
+      duration: 30,
+      ease: "linear",
+      repeat: -1,
+    });
+
+    if (userPauseOnHoverIndustries) {
+      sliderIndustries.addEventListener("mouseenter", () =>
+        currentTweenIndustries?.pause()
+      );
+      sliderIndustries.addEventListener("mouseleave", () =>
+        currentTweenIndustries?.play()
+      );
+    }
+  });
+</script>

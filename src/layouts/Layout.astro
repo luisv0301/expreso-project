@@ -49,6 +49,7 @@ import { ClientRouter } from "astro:transitions";
     --max-width: 1350px;
     --padding-x: 1rem;
     --color-text: hsla(0, 0%, 14%, 0.8);
+    --marquee-gap: 2rem;
 
     --step--2: clamp(0.7813rem, 0.7754rem + 0.0291vw, 0.8rem);
     --step--1: clamp(0.9375rem, 0.9181rem + 0.0971vw, 1rem);
@@ -158,5 +159,11 @@ import { ClientRouter } from "astro:transitions";
     max-width: var(--max-width);
     margin-inline: auto;
     padding-inline: var(--padding-x);
+  }
+
+  @media (max-width: 450px) {
+    h1 {
+      font-size: var(--step-4);
+    }
   }
 </style>
