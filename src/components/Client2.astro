@@ -112,7 +112,8 @@ const clientes = [
     grid-auto-flow: column;
     border-block: 1px solid var(--border-color);
     background-color: var(--white);
-    min-width: var(--max-width);
+    min-width: 2500px;
+    height: 122px;
   }
 
   .clientes__logo-item {
@@ -120,11 +121,9 @@ const clientes = [
     display: grid;
     place-content: center;
     transition: all 0.4s ease-in-out;
-    padding-inline: 2rem;
     border-inline: 1px solid var(--border-color);
     width: 100%;
-
-    padding: 4rem 1.2rem;
+    padding: 1.3rem 1rem;
   }
 
   .clientes__logo-img {
@@ -148,6 +147,18 @@ const clientes = [
   import { gsap } from "gsap";
 
   document.addEventListener("astro:page-load", () => {
+    const logos = document.querySelectorAll(".clientes__logos");
+
+    logos.forEach((logo) => {
+      gsap.to(logo, {
+        xPercent: -100,
+        duration: 30,
+        ease: "linear",
+        repeat: -1,
+      });
+    });
+
+    /*
     const slider = document.querySelector(".clientes__slider-container");
     const userPauseOnHover = true;
 
@@ -162,5 +173,7 @@ const clientes = [
       slider.addEventListener("mouseenter", () => currentTween?.pause());
       slider.addEventListener("mouseleave", () => currentTween?.play());
     }
+
+    */
   });
 </script>

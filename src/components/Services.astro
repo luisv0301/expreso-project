@@ -196,6 +196,7 @@ const servicios = [
 
   .services__icon {
     min-width: 180px;
+    transform: translateY(24px);
   }
   @media (max-width: 750px) {
     .services__text {
@@ -271,6 +272,40 @@ const servicios = [
     const panels = document.querySelectorAll(".servicios__panel");
     const imgs = document.querySelectorAll(".servicios__img");
     const clipPaths = [
+      "polygon(100% 0%, 75% 50%, 100% 100%, 25% 100%, 0% 50%, 25% 0%)",
+      "polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%)",
+      "polygon(100% 0%, 75% 50%, 100% 100%, 25% 100%, 0% 50%, 25% 0%)",
+    ];
+    const initialClipPath =
+      "polygon(100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%)";
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((t) => {
+          t.setAttribute("aria-selected", "false");
+          t.setAttribute("tabindex", "-1");
+        });
+
+        panels.forEach((p) => (p.style.display = "none"));
+
+        tab.setAttribute("aria-selected", "true");
+        tab.setAttribute("tabindex", "0");
+        panels[index].style.display = "flex";
+
+        const currentImg = imgs[index];
+
+        gsap.set(currentImg, { clipPath: initialClipPath });
+        gsap.to(currentImg, { clipPath: clipPaths[index], duration: 0.5 });
+      });
+    });
+
+    /* 
+
+    VERSION 2
+    const tabs = document.querySelectorAll(".servicios__tab");
+    const panels = document.querySelectorAll(".servicios__panel");
+    const imgs = document.querySelectorAll(".servicios__img");
+    const clipPaths = [
       "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
       "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
       "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
@@ -296,6 +331,7 @@ const servicios = [
         gsap.to(currentImg, { clipPath: clipPaths[index], duration: 0.5 });
       });
     });
+    */
 
     /*
     const tabs = document.querySelectorAll(".servicios__tab");

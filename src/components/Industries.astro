@@ -24,7 +24,7 @@ const clientes = [
     </div>
     <div class="clientes__slider-container--industries">
       <div class="clientes__slider">
-        <div class="clientes__logos">
+        <div class="clientes__logos clientes__logos--industries">
           {
             clientes.map((cliente) => (
               <div class="clientes__logo-item">
@@ -38,7 +38,7 @@ const clientes = [
             ))
           }
         </div>
-        <div class="clientes__logos">
+        <div class="clientes__logos clientes__logos--industries">
           {
             clientes.map((cliente) => (
               <div class="clientes__logo-item">
@@ -63,6 +63,10 @@ const clientes = [
     grid-auto-flow: column;
   }
 
+  .clientes__slider-container--industries {
+    width: 4000px;
+    box-sizing: border-box;
+  }
   .clientes__titulo--animation {
     text-transform: uppercase;
   }
@@ -97,24 +101,33 @@ const clientes = [
     display: grid;
     grid-auto-flow: column;
     border-block: 1px solid var(--border-color);
-    min-width: var(--max-width);
+    width: 2000px;
+    box-sizing: border-box;
   }
   .clientes__logo-text {
     text-transform: uppercase;
+    min-width: 160px;
+    box-sizing: border-box;
+    text-align: center;
+    margin-block: 0;
   }
   .clientes__logo-item {
     box-sizing: border-box;
     display: grid;
     gap: 1rem;
-    grid-auto-flow: column;
+    grid-template-columns: 58px 1fr;
     place-content: center;
+    place-items: center;
     transition: all 0.4s ease-in-out;
-    padding-inline: 2rem;
     border-inline: 1px solid var(--border-color);
     width: 100%;
-    padding: 4rem 1.2rem;
+    padding: 2rem 1.2rem;
   }
 
+  .clientes__logo-img {
+    width: 58px;
+    height: auto;
+  }
   @media (max-width: 500px) {
     .clientes__encabezado {
       flex-direction: column;
@@ -130,6 +143,20 @@ const clientes = [
   import { gsap } from "gsap";
 
   document.addEventListener("astro:page-load", () => {
+    const industries = document.querySelectorAll(
+      ".clientes__logos--industries"
+    );
+
+    industries.forEach((industry) => {
+      gsap.to(industry, {
+        xPercent: -100,
+        duration: 30,
+        ease: "linear",
+        repeat: -1,
+      });
+    });
+
+    /*
     const sliderIndustries = document.querySelector(
       ".clientes__slider-container--industries"
     );
@@ -137,7 +164,7 @@ const clientes = [
 
     const currentTweenIndustries = gsap.to(sliderIndustries, {
       xPercent: -100,
-      duration: 30,
+      duration: 10,
       ease: "linear",
       repeat: -1,
     });
@@ -150,5 +177,6 @@ const clientes = [
         currentTweenIndustries?.play()
       );
     }
+      */
   });
 </script>
