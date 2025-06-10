@@ -18,22 +18,6 @@ import servicesOne from "../assets/service-preview-01.png";
 import servicesTwo from "../assets/service-preview-02.png";
 import servicesThree from "../assets/service-preview-03.png";
 
-import { getImage } from "astro:assets";
-let optimizedImages;
-
-const images = [servicesOne, servicesTwo, servicesThree];
-const promises = await Promise.all(
-  images.map(async (image) => {
-    return await getImage({
-      src: image,
-      format: "webp",
-    });
-  })
-).then((values) => {
-  console.log(values);
-  optimizedImages = values;
-});
-
 const clientes = [
   { alt: "Logo de Berry", src: "/logos/berry.svg" },
   { alt: "Logo de Berry", src: "/logos/berry.svg" },
@@ -41,21 +25,12 @@ const clientes = [
   { alt: "Logo de Berry", src: "/logos/berry.svg" },
 ];
 
-console.log("desde home", optimizedImages);
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
   <header>
-    {
-      optimizedImages?.length > 0 &&
-        optimizedImages.map((image) => (
-          <Fragment slot="head">
-            <link rel="preload" href={image.src} as="image" />
-          </Fragment>
-        ))
-    }
     <div class="header">
       <video
         loop
@@ -83,7 +58,7 @@ console.log("desde home", optimizedImages);
     </div>
   </header>
   <div>
-    <Services optimizedImages={optimizedImages} />
+    <Services />
   </div>
   <section>
     <Industries />
