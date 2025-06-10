@@ -5,6 +5,10 @@ import servicesOne from "../assets/service-preview-01.png";
 import servicesTwo from "../assets/service-preview-02.png";
 import servicesThree from "../assets/service-preview-03.png";
 
+const { optimizedImages } = Astro.props;
+
+console.log("optimizsedImages", optimizedImages);
+
 const servicios = [
   {
     name: "Logistica",
@@ -12,7 +16,7 @@ const servicios = [
     titulo: "Optimizamos tu almacenamiento con tecnología y sustentabilidad",
     descripcion:
       "Gestionamos tus mercaderías en depósitos inteligentes con sistemas de trazabilidad digital. Ideal para reducir costos y mejorar tu cadena de suministro.",
-    imagen: servicesOne,
+    imagen: optimizedImages[0],
     href: "/servicios/#logistica",
   },
   {
@@ -21,7 +25,7 @@ const servicios = [
     titulo: "Transporte seguro y a tiempo",
     descripcion:
       "Desde cargas peligrosas hasta refrigerados. Contamos con una flota moderna y sistema de rastreo satelital para entregas eficientes en todo el país.",
-    imagen: servicesTwo,
+    imagen: optimizedImages[1],
     href: "/servicios/#transporte",
   },
   {
@@ -30,7 +34,7 @@ const servicios = [
     titulo: "Distribución eficiente y planificada",
     descripcion:
       "Nuestra red de distribución permite entregas ágiles y controladas desde el centro logístico hasta el punto de venta.",
-    imagen: servicesThree,
+    imagen: optimizedImages[2],
     href: "/servicios/#distribucion",
   },
 ];
@@ -89,7 +93,7 @@ const servicios = [
         >
           <div class="servicios__imagen">
             <Image
-              src={s.imagen}
+              src={s.imagen.options.src}
               alt={`Imagen de ${s.id}`}
               class="servicios__img"
             />

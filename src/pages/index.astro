@@ -31,6 +31,14 @@ const clientes = [
 
 <Layout>
   <header>
+    {
+      optimizedImages?.length > 0 &&
+        optimizedImages.map((image) => (
+          <Fragment slot="head">
+            <link rel="preload" href={image.src} as="image" />
+          </Fragment>
+        ))
+    }
     <div class="header">
       <video
         loop
@@ -58,7 +66,7 @@ const clientes = [
     </div>
   </header>
   <div>
-    <Services />
+    <Services optimizedImages={optimizedImages} />
   </div>
   <section>
     <Industries />
