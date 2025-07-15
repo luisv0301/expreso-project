@@ -22,6 +22,8 @@ const { data: posts } = await loadQuery<SanityDocument[]>({
 
 const mainPost = posts[0];
 
+console.log("url main post img", urlForImage(mainPost.mainImage.asset).url());
+
 const formatDate = (date: string) => {
   const dateObj = new Date(date);
   const options: Intl.DateTimeFormatOptions = {

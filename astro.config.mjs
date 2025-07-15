@@ -21,4 +21,7 @@ export default defineConfig({
   ],
 
   adapter: netlify(),
+  image: {
+    domains: ["cdn.sanity.io"],
+  },
 });
