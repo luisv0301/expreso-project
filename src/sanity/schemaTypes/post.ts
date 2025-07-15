@@ -17,6 +17,10 @@ export const postType = defineType({
         maxLength: 96,
       },
     }),
+    defineField({
+      name: "extracto",
+      type: "string",
+    }),
 
     defineField({
       name: "mainImage",

@@ -1,4 +1,5 @@
 ---
+export const prerender = false;
 import type { SanityDocument } from "@sanity/client";
 import { loadQuery } from "../../sanity/lib/loadquery";
 import PortableText from "../../components/PortableText.astro";
@@ -6,6 +7,7 @@ import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { urlForImage } from "../../sanity/lib/url-for-image";
 
+/*
 export async function getStaticPaths() {
   const { data: posts } = await loadQuery<SanityDocument[]>({
     query: `*[_type == "post"]`,
@@ -20,18 +22,30 @@ export async function getStaticPaths() {
     };
   });
 }
-
-const { params } = Astro;
-const { title, mainImage, body } = Astro.props;
-
-/*
-const { data: post } = await loadQuery({
-  query: `*[_type == "post" && slug.current == $slug][0]`,
-  params,
-});
 */
 
-const imgUrl = urlForImage(mainImage.asset).url();
+const { slug }: any = Astro.params;
+console.log("slug", slug);
+//const { title, mainImage, body } = Astro.props;
+
+const { data: post } = await loadQuery({
+  query: `*[_type == "post" && slug.current == $slug][0]`,
+  params: { slug },
+});
+
+console.log("el post", post);
+
+const imgUrl = urlForImage(post.mainImage.asset).url();
+
+const formatDate = (date: string) => {
+  const dateObj = new Date(date);
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return dateObj.toLocaleDateString("es-ES", options);
+};
 ---
 
 <Layout>
@@ -39,7 +53,7 @@ const imgUrl = urlForImage(mainImage.asset).url();
     <Image src={imgUrl} inferSize alt="Noticias" class="post__image" />
     <div class="post__description container__global">
       <div>
-        <h1 class="post__title">{title}</h1>
+        <h1 class="post__title">{post.title}</h1>
         <div class="post__date">
           <svg
             width="25"
@@ -71,20 +85,16 @@ const imgUrl = urlForImage(mainImage.asset).url();
                 fill-opacity="0.7"></path>
             </g>
           </svg>
-          <span>25 jun, 2025</span>
+          <span>{formatDate(post.publishedAt)}</span>
         </div>
       </div>
       <p class="post__info">
-        En Expreso Vitale, entendemos que la logística no es un servicio único,
-        sino un proceso estratégico donde cada fase, logística, transporte y
-        distribución requiere expertise específico. Por eso, diseñamos
-        soluciones a medida para optimizar costos, tiempo y seguridad en cada
-        paso.
+        {post.extracto}
       </p>
     </div>
   </div>
   <div class="post__content">
-    <PortableText portableText={body} />
+    <PortableText portableText={post.body} />
   </div>
 </Layout>
 

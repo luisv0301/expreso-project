@@ -1,12 +1,23 @@
 ---
 import logo from "../assets/logo.png";
+import { loadQuery } from "../sanity/lib/loadquery";
+import type { SanityDocument } from "@sanity/client";
 const navLinks = [
   { href: "/", text: "INICIO" },
   { href: "/servicios", text: "SERVICIOS" },
   { href: "/sobre-nosotros", text: "SOBRE NOSOTROS" },
   { href: "/flota", text: "FLOTA" },
-  { href: "/noticias2", text: "NOTICIAS" },
 ];
+
+const { data: posts } = await loadQuery<SanityDocument[]>({
+  query: `*[_type == "post"]{
+        title,
+        slug,
+        mainImage,
+        publishedAt,
+        extracto,
+    }`,
+});
 ---
 
 <div class="header">
@@ -42,6 +53,15 @@ const navLinks = [
               </a>
             </li>
           ))
+        }
+        {
+          posts.length > 0 && (
+            <li class="header__nav-item">
+              <a href="/noticias" class="header__nav-link">
+                NOTICIAS
+              </a>
+            </li>
+          )
         }
       </ul>
     </nav>

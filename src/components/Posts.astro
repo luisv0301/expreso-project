@@ -1,45 +1,38 @@
 ---
 import { Image } from "astro:assets";
 import news from "../assets/news-img.png";
-const newsData = [
-  {
-    title: "Distribución Interplantas",
-    date: "25 jun, 2025",
-    text: "Monitoreo satelital en tiempo real (homologado por CESVI) para que sigas cada paso de tu carga.",
-    icon: news,
-  },
-  {
-    title: "Distribución Interplantas",
-    date: "25 jun, 2025",
-    text: "Monitoreo satelital en tiempo real (homologado por CESVI) para que sigas cada paso de tu carga.",
-    icon: news,
-  },
-  {
-    title: "Distribución Interplantas",
-    date: "25 jun, 2025",
-    text: "Monitoreo satelital en tiempo real (homologado por CESVI) para que sigas cada paso de tu carga.",
-    icon: news,
-  },
-  {
-    title: "Distribución Interplantas",
-    date: "25 jun, 2025",
-    text: "Monitoreo satelital en tiempo real (homologado por CESVI) para que sigas cada paso de tu carga.",
-    icon: news,
-  },
-];
+import { urlForImage } from "../sanity/lib/url-for-image";
+
+const { posts } = Astro.props;
+
+const formatDate = (date: string) => {
+  const dateObj = new Date(date);
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return dateObj.toLocaleDateString("es-ES", options);
+};
 ---
 
 <ul class="new__list">
   {
-    newsData.map((news) => (
+    posts?.map((post: any) => (
       <li class="new">
-        <Image src={news.icon} alt={news.title} />
+        <Image
+          src={urlForImage(post.mainImage.asset).url()}
+          alt={post.title}
+          width={205}
+          height={205}
+          class="new__image"
+        />
         <div class="new__container">
           <div class="square" />
           <div class="new__content">
             <div>
               <div>
-                <h3 class="new__title">{news.title}</h3>
+                <h3 class="new__title">{post.title}</h3>
                 <div class="new__date">
                   <svg
                     width="25"
@@ -73,13 +66,16 @@ const newsData = [
                       />
                     </g>
                   </svg>
-                  <p>{news.date}</p>
+                  <p>{formatDate(post.publishedAt)}</p>
                 </div>
               </div>
-              <p class="new__text">{news.text}</p>
+              <p class="new__text">{post.extracto}</p>
             </div>
 
-            <a href="/post" class="new__arrow-container">
+            <a
+              href={`/noticias/${post.slug.current}`}
+              class="new__arrow-container"
+            >
               <svg
                 width="33"
                 height="32"
@@ -130,6 +126,13 @@ const newsData = [
     display: flex;
     gap: 2rem;
   }
+
+  .new__image {
+    width: 205px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+
   .new__title {
     margin-top: 0;
     position: relative;

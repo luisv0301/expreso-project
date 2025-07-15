@@ -4,7 +4,9 @@ import type { SchemaTypeDefinition } from "sanity";
 import { blockContentType } from "./blockContent";
 import { postType } from "./post";
 import { testimonyType } from "./testimony";
+import { clientType } from "./clients";
+import { contactType } from "./contact";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [blockContentType, postType, testimonyType],
+  types: [blockContentType, postType, testimonyType, clientType, contactType],
 };

@@ -1,16 +1,58 @@
 ---
+export const prerender = false;
 import { Image } from "astro:assets";
 import newsOne from "../assets/services.png";
 import Layout from "../layouts/Layout.astro";
 import Posts from "../components/Posts.astro";
+import Button from "../components/Button.astro";
+import { loadQuery } from "../sanity/lib/loadquery";
+import type { SanityDocument } from "@sanity/client";
+import { urlForImage } from "../sanity/lib/url-for-image";
+
+const { data: posts } = await loadQuery<SanityDocument[]>({
+  query: `*[_type == "post"]{
+        title,
+        slug,
+        mainImage,
+        publishedAt,
+        extracto,
+    }`,
+});
+
+const mainPost = posts[0];
+
+const formatDate = (date: string) => {
+  const dateObj = new Date(date);
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return dateObj.toLocaleDateString("es-ES", options);
+};
 ---
 
 <Layout>
   <div class="news__container">
     <header class="container__global">
+      <div class="news__description">
+        <svg
+          width="184"
+          height="25"
+          viewBox="0 0 184 25"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="blog__icon"
+        >
+          <path
+            d="M183.402 12.4824L182.509 11.5479L171.462 0.5L169.591 2.37035L178.406 11.1827L0.1875 11.1827V13.7822L178.407 13.7822L169.592 22.5958L171.462 24.4649L182.509 13.417L183.402 12.4824Z"
+            fill="#EC1C24"></path>
+        </svg>
+        <h1 class="news__main-title">Blog</h1>
+      </div>
       <div class="news__content">
-        <div>
-          <h2 class="news__title">Distribución Interplantas</h2>
+        <div class="news__info">
+          <h2 class="news__title">{mainPost.title}</h2>
           <div>
             <div class="news__date">
               <svg
@@ -43,40 +85,30 @@ import Posts from "../components/Posts.astro";
                     fill-opacity="0.7"></path>
                 </g>
               </svg>
-              <span>25 jun, 2025</span>
+              <span>{formatDate(mainPost.publishedAt)}</span>
             </div>
 
             <p class="news__text">
-              En Expreso Vitale, entendemos que la logística no es un servicio
-              único, sino un proceso estratégico donde cada fase, logística,
-              transporte y distribución requiere expertise específico. Por eso,
-              diseñamos soluciones a medida para optimizar costos, tiempo y
-              seguridad en cada paso.
+              {mainPost.extracto}
             </p>
+            <Button
+              href={`/noticias/${mainPost.slug.current}`}
+              label="Leer noticia"
+            />
           </div>
         </div>
-        <div>
-          <div class="news__description">
-            <svg
-              width="184"
-              height="25"
-              viewBox="0 0 184 25"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M183.402 12.4824L182.509 11.5479L171.462 0.5L169.591 2.37035L178.406 11.1827L0.1875 11.1827V13.7822L178.407 13.7822L169.592 22.5958L171.462 24.4649L182.509 13.417L183.402 12.4824Z"
-                fill="#EC1C24"></path>
-            </svg>
-            <h1 class="news__main-title">Blog</h1>
-          </div>
-          <Image src={newsOne} alt="Noticias" class="news__image" />
+        <div class="news__image">
+          <Image
+            src={urlForImage(mainPost.mainImage.asset).url()}
+            alt="Noticias"
+            inferSize
+          />
         </div>
       </div>
     </header>
   </div>
   <section class="news__list container__global">
-    <Posts />
+    <Posts posts={posts} />
   </section>
 </Layout>
 
@@ -85,17 +117,35 @@ import Posts from "../components/Posts.astro";
     padding-block: 8rem;
   }
   .news__container {
-    padding-block: 5rem;
+    padding-block: 3rem 5rem;
     background-color: var(--gray);
   }
 
   .news__title {
     font-size: var(--step-3);
-    margin-bottom: 0.5rem;
+    margin-block: 0 0.5rem;
+    position: relative;
+  }
+
+  .news__title::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(-186%, -50%);
+    aspect-ratio: 1 / 1;
+    background-color: var(--primary-color);
+    width: 1rem;
   }
 
   .news__text {
-    margin-top: 4rem;
+    margin-block: 4rem 1.5rem;
+    max-width: 600px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: clip;
   }
   .news__main-title {
     margin: 0;
@@ -107,19 +157,26 @@ import Posts from "../components/Posts.astro";
   }
   .news__image {
     aspect-ratio: 1/1;
+    overflow: hidden;
+  }
+  .news__image img {
+    object-fit: cover;
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
   .news__content {
     display: flex;
-    gap: 1rem;
-    justify-content: space-between;
-    align-items: end;
   }
 
   .news__content > * {
     flex: 1;
+  }
+  .news__image-container {
+    flex: 1;
+  }
+  .news__info {
+    background: var(--white);
+    padding: 3rem;
   }
 
   .news__description {
@@ -129,13 +186,13 @@ import Posts from "../components/Posts.astro";
     margin-bottom: 3rem;
   }
 
+  .blog__icon {
+    opacity: 0;
+    transform: translateX(-150px) scaleX(0.25);
+  }
   @media (max-width: 768px) {
     .news__content {
       flex-direction: column-reverse;
-    }
-
-    .news__content > * {
-      width: 100%;
     }
   }
 
@@ -146,6 +203,9 @@ import Posts from "../components/Posts.astro";
   }
 
   @media (max-width: 450px) {
+    .news__title {
+      font-size: var(--step-2);
+    }
     .news__text {
       margin-top: 1.5rem;
     }
@@ -153,5 +213,16 @@ import Posts from "../components/Posts.astro";
     .news__list {
       padding-block: 4rem;
     }
+
+    .news__info {
+      padding: 1.5rem 1.5rem 1.5rem 3rem;
+    }
   }
 </style>
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("astro:page-load", (event) => {
+    gsap.to(".blog__icon", { x: 0, opacity: 1, scaleX: 1, duration: 0.4 });
+  });
+</script>

@@ -1,6 +1,10 @@
 ---
 import { Image } from "astro:assets";
 import testimony from "../assets/testimony.png";
+import { loadQuery } from "../sanity/lib/loadquery";
+import type { SanityDocument } from "@sanity/client";
+import { urlForImage } from "../sanity/lib/url-for-image";
+
 const testimonios = [
   {
     nombre: "Luis Vasquez",
@@ -24,13 +28,15 @@ const testimonios = [
     imagen: testimony,
   },
 ];
+
+const { testimonials } = Astro.props;
 ---
 
 <section class="testimonios">
   <div class="container__global">
     <div class="testimonios__contenedor" id="slider">
       {
-        testimonios.map((t, i) => (
+        testimonials?.map((t, i) => (
           <figure class="testimonios__item" data-index={i}>
             <div class="testimonios__descripcion">
               <div class="testimonios__imagen">
@@ -47,8 +53,11 @@ const testimonios = [
                     fill="#363636"
                   />
                 </svg>
-
-                <Image src={t.imagen} alt={`Foto de ${t.nombre}`} />
+                <Image
+                  src={urlForImage(t.imagenDePerfil.asset).url()}
+                  inferSize
+                  alt={`Foto de ${t.nombre}`}
+                />
               </div>
               <div class="testimonios__autor">
                 <p class="testimonios__nombre">{t.nombre}</p>
@@ -57,7 +66,7 @@ const testimonios = [
             </div>
 
             <figcaption class="testimonios__contenido">
-              <blockquote class="testimonios__texto">{t.texto}</blockquote>
+              <blockquote class="testimonios__texto">{t.testimonio}</blockquote>
             </figcaption>
           </figure>
         ))
@@ -194,6 +203,121 @@ const testimonios = [
   import { gsap } from "gsap";
 
   document.addEventListener("astro:page-load", () => {
+    function startAnimation() {
+      const slider = document.getElementById("slider");
+      const items = slider?.querySelectorAll(".testimonios__item");
+      const nextButton = document.getElementById("next");
+      const prevButton = document.getElementById("prev");
+      let current = 0;
+      let isAnimating = false;
+
+      if (!items || items.length === 0) {
+        console.warn(
+          "Slider: No se encontraron testimonios o el elemento slider no existe."
+        );
+        return;
+      }
+
+      // --- Función para ajustar la altura del slider y configurar slides iniciales ---
+      function adjustSliderHeightAndSetup() {
+        if (!slider || !items || items.length === 0) return;
+        let maxHeight = 0;
+
+        // Fase 1: Medir todos los items para encontrar la altura máxima
+        items.forEach((item) => {
+          const originalDisplay = item.style.display; // Guardar display original
+
+          item.style.display = "flex"; // O el display que usas (e.g., 'block')
+
+          maxHeight = Math.max(maxHeight, item.offsetHeight);
+
+          item.style.display = originalDisplay;
+        });
+
+        // Aplicar la altura máxima al contenedor del slider
+        if (maxHeight > 0) {
+          slider.style.height = maxHeight + "px";
+        }
+
+        items.forEach((item, index) => {
+          if (index !== current) {
+            gsap.set(item, { opacity: 0, xPercent: 100 });
+          } else {
+            gsap.set(item, { opacity: 1, xPercent: 0 });
+          }
+        });
+      }
+
+      // Llamar a la función para ajustar altura y configurar slides al inicio
+      adjustSliderHeightAndSetup();
+
+      // --- Función para Animar los Testimonios --- (SIN CAMBIOS, igual que antes)
+      function animateSlides(newIndex, direction) {
+        if (isAnimating || newIndex === current) {
+          return;
+        }
+        isAnimating = true;
+
+        const outgoingItem = items[current];
+        const incomingItem = items[newIndex];
+        const duration = 0.4;
+        const xDisplacement = 100;
+        const ease = "power2.inOut";
+
+        if (direction === "next") {
+          gsap.set(incomingItem, { xPercent: xDisplacement });
+        } else {
+          gsap.set(incomingItem, { xPercent: -xDisplacement });
+        }
+
+        const tl = gsap.timeline({
+          onComplete: () => {
+            outgoingItem.style.opacity = 0;
+            gsap.set(outgoingItem, {
+              xPercent: direction === "next" ? xDisplacement : -xDisplacement,
+            });
+            isAnimating = false;
+          },
+        });
+
+        tl.to(outgoingItem, {
+          xPercent: direction === "next" ? -xDisplacement : xDisplacement,
+          opacity: 0,
+          duration: duration,
+          ease: ease,
+        });
+
+        tl.to(
+          incomingItem,
+          {
+            xPercent: direction === "next" ? 0 : 0,
+            opacity: 1,
+            duration: duration,
+            ease: ease,
+          },
+          "-=0.5"
+        );
+
+        current = newIndex;
+      }
+
+      nextButton?.addEventListener("click", () => {
+        if (items.length === 0) return;
+        const newIndex = (current + 1) % items.length;
+        animateSlides(newIndex, "next");
+      });
+
+      prevButton?.addEventListener("click", () => {
+        if (items.length === 0) return;
+        const newIndex = (current - 1 + items.length) % items.length;
+        animateSlides(newIndex, "prev");
+      });
+    }
+
+    startAnimation();
+  });
+
+  document.addEventListener("astro:page-load", () => {
     const slider = document.getElementById("slider");
     const items = slider?.querySelectorAll(".testimonios__item");
     const nextButton = document.getElementById("next");
@@ -291,7 +415,6 @@ const testimonios = [
       current = newIndex;
     }
 
-    // --- Event Listeners para los Botones --- (SIN CAMBIOS, igual que antes)
     nextButton?.addEventListener("click", () => {
       if (items.length === 0) return;
       const newIndex = (current + 1) % items.length;

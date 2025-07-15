@@ -7,6 +7,12 @@ import Clients from "../components/Clients.astro";
 import Button from "../components/Button.astro";
 import Marquee from "../components/Marquee.astro";
 import Client2 from "../components/Client2.astro";
+import { loadQuery } from "../sanity/lib/loadquery";
+import type { SanityDocument } from "@sanity/client";
+
+const { data: logos } = await loadQuery<SanityDocument[]>({
+  query: `*[_type == "clientes"]`,
+});
 ---
 
 <Layout>
@@ -36,7 +42,7 @@ import Client2 from "../components/Client2.astro";
   </div>
 
   <div>
-    <Client2 />
+    <Client2 logos={logos} />
   </div>
 
   <style>

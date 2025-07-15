@@ -1,4 +1,5 @@
 ---
+export const prerender = false;
 import Welcome from "../components/Welcome.astro";
 import { Image } from "astro:assets";
 import headerbg from "../assets/header-bg.png";
@@ -14,13 +15,26 @@ import Clients from "../components/Clients.astro";
 import videoBg from "../assets/video-bg.mp4";
 import Industries from "../components/Industries.astro";
 import Client2 from "../components/Client2.astro";
+import { loadQuery } from "../sanity/lib/loadquery";
+import type { SanityDocument } from "@sanity/client";
 
-const clientes = [
-  { alt: "Logo de Berry", src: "/logos/berry.svg" },
-  { alt: "Logo de Berry", src: "/logos/berry.svg" },
-  { alt: "Logo de Berry", src: "/logos/berry.svg" },
-  { alt: "Logo de Berry", src: "/logos/berry.svg" },
-];
+const { data: logos } = await loadQuery<SanityDocument[]>({
+  query: `*[_type == "clientes"]`,
+});
+
+const { data: posts } = await loadQuery<SanityDocument[]>({
+  query: `*[_type == "post"]{
+        title,
+        slug,
+        mainImage,
+        publishedAt,
+        extracto,
+    }[0...4]`,
+});
+
+const { data: testimonials } = await loadQuery<SanityDocument[]>({
+  query: `*[_type == "testimonio"]`,
+});
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -85,15 +99,19 @@ const clientes = [
     </section>
   </div>
 
-  <Client2 />
+  <Client2 logos={logos} />
   <section>
-    <Testimony2 />
+    <Testimony2 testimonials={testimonials} />
   </section>
 
-  <section class="news container__global">
-    <h2 class="news__title">Noticias</h2>
-    <Posts />
-  </section>
+  {
+    posts.length > 0 && (
+      <section class="news container__global">
+        <h2 class="news__title">Noticias</h2>
+        <Posts posts={posts} />
+      </section>
+    )
+  }
 </Layout>
 
 <style>
@@ -332,27 +350,5 @@ const clientes = [
     tl.from(".header__title", { opacity: 0, y: 50, duration: 0.3 });
     tl.from(".header__subtitle", { opacity: 0, y: 50, duration: 0.3 });
     tl.to(".header__bg", { filter: "blur(0px)", duration: 0.8 });
-
-    /* Environment
-    const environment = document.querySelector(".environment__container");
-    const heightDiff =
-      environment?.offsetHeight - environment?.parentElement.offsetHeight;
-
-    gsap.fromTo(
-      environment,
-      {
-        y: environment.parentElement.offsetHeight - environment.offsetHeight,
-      },
-      {
-        y: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: environment.parentElement,
-          scrub: true,
-        },
-      }
-    );
-
-    */
   });
 </script>
