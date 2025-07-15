@@ -2,6 +2,7 @@ import { defineField, defineType } from "sanity";
 
 export const contactType = defineType({
   name: "contacto",
+  title: "Contacto",
   type: "document",
   fields: [
     defineField({
@@ -13,10 +14,4 @@ export const contactType = defineType({
       type: "string",
     }),
   ],
-
-  preview: {
-    select: {
-      title: "email",
-    },
-  },
 });

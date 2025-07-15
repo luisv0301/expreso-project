@@ -1,5 +1,25 @@
 ---
-
+import { Image } from "astro:assets";
+import logo from "../assets/logo.png";
+import ContactLayout from "../layouts/ContactLayout.astro";
 ---
 
-<h1>Correo enviado exitosamente</h1>
+<ContactLayout>
+  <Image src={logo} alt="" />
+  <h1 class="title">¡Mensaje enviado con éxito!</h1>
+  <p class="text">
+    ¡Gracias por contactarnos! Hemos recibido tu mensaje a través de nuestro
+    formulario web y te responderemos lo antes posible.
+  </p>
+</ContactLayout>
+
+<style>
+  .title {
+    font-size: clamp(2.3328rem, 2.1094rem + 1.1168vw, 3.0518rem);
+    font-family: sans-serif;
+  }
+
+  .text {
+    font-family: sans-serif;
+  }
+</style>

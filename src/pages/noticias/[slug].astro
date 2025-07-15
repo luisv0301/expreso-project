@@ -26,15 +26,12 @@ export async function getStaticPaths() {
 */
 
 const { slug }: any = Astro.params;
-console.log("slug", slug);
 //const { title, mainImage, body } = Astro.props;
 
 const { data: post } = await loadQuery({
   query: `*[_type == "post" && slug.current == $slug][0]`,
   params: { slug },
 });
-
-console.log("el post", post);
 
 const imgUrl = urlForImage(post.mainImage.asset).url();
 
