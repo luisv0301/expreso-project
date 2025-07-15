@@ -9,7 +9,6 @@ import netlify from "@astrojs/netlify";
 // https://astro.build/config
 export default defineConfig({
   output: "server",
-  prefetch: true,
   integrations: [
     sanity({
       projectId: "08bh5kcw",
