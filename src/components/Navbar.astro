@@ -79,8 +79,10 @@ const { data: posts } = await loadQuery<SanityDocument[]>({
     transition: background-color 0.3s ease;
   }
   .header {
-    padding-block: 1rem; /* Espaciado vertical */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil como en la imagen */
+    padding-block: 1rem;
+    box-shadow: 0 2px 4px #0000001a;
+    height: 69px;
+    box-sizing: border-box;
   }
 
   .header__hambur-menu {
