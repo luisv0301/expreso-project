@@ -1,5 +1,5 @@
 ---
-export const prerender = false;
+//export const prerender = false;
 
 import type { SanityDocument } from "@sanity/client";
 import { loadQuery } from "../../sanity/lib/loadquery";
@@ -8,32 +8,34 @@ import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { urlForImage } from "../../sanity/lib/url-for-image";
 
-/*
 export async function getStaticPaths() {
   const { data: posts } = await loadQuery<SanityDocument[]>({
     query: `*[_type == "post"]`,
   });
 
-  return posts.map(({ slug, title, mainImage, body }) => {
-    return {
-      params: {
-        slug: slug.current,
-      },
-      props: { title, mainImage, body },
-    };
-  });
+  return posts.map(
+    ({ slug, title, mainImage, body, publishedAt, extracto }) => {
+      return {
+        params: {
+          slug: slug.current,
+        },
+        props: { title, mainImage, body, publishedAt, extracto },
+      };
+    }
+  );
 }
-*/
 
-const { slug }: any = Astro.params;
-//const { title, mainImage, body } = Astro.props;
+//const { slug }: any = Astro.params;
+const { title, mainImage, body, publishedAt, extracto } = Astro.props;
 
+/*
 const { data: post } = await loadQuery({
   query: `*[_type == "post" && slug.current == $slug][0]`,
   params: { slug },
 });
+*/
 
-const imgUrl = urlForImage(post.mainImage.asset).url();
+//const imgUrl = urlForImage(post.mainImage.asset).url();
 
 const formatDate = (date: string) => {
   const dateObj = new Date(date);
@@ -48,10 +50,15 @@ const formatDate = (date: string) => {
 
 <Layout>
   <div class="post__container">
-    <Image src={imgUrl} inferSize alt="Noticias" class="post__image" />
+    <Image
+      src={urlForImage(mainImage.asset).url()}
+      inferSize
+      alt="Noticias"
+      class="post__image"
+    />
     <div class="post__description container__global">
       <div>
-        <h1 class="post__title">{post.title}</h1>
+        <h1 class="post__title">{title}</h1>
         <div class="post__date">
           <svg
             width="25"
@@ -83,16 +90,16 @@ const formatDate = (date: string) => {
                 fill-opacity="0.7"></path>
             </g>
           </svg>
-          <span>{formatDate(post.publishedAt)}</span>
+          <span>{formatDate(publishedAt)}</span>
         </div>
       </div>
       <p class="post__info">
-        {post.extracto}
+        {extracto}
       </p>
     </div>
   </div>
   <div class="post__content">
-    <PortableText portableText={post.body} />
+    <PortableText portableText={body} />
   </div>
 </Layout>
 
