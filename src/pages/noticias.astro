@@ -1,8 +1,7 @@
 ---
-//export const prerender = false;
+export const prerender = false;
 
 import { Image } from "astro:assets";
-import newsOne from "../assets/services.png";
 import Layout from "../layouts/Layout.astro";
 import Posts from "../components/Posts.astro";
 import Button from "../components/Button.astro";
@@ -221,9 +220,14 @@ const formatDate = (date: string) => {
   }
 </style>
 <script>
-  import { gsap } from "gsap";
+  import { gsapUtils } from "../gsap-utils";
 
   document.addEventListener("astro:page-load", (event) => {
-    gsap.to(".blog__icon", { x: 0, opacity: 1, scaleX: 1, duration: 0.4 });
+    gsapUtils.gsap.to(".blog__icon", {
+      x: 0,
+      opacity: 1,
+      scaleX: 1,
+      duration: 0.4,
+    });
   });
 </script>

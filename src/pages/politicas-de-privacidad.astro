@@ -1,0 +1,29 @@
+---
+export const prerender = false;
+
+import Layout from "../layouts/Layout.astro";
+import PortableText from "../components/PortableText.astro";
+import { loadQuery } from "../sanity/lib/loadquery";
+import type { SanityDocument } from "@sanity/client";
+
+const { data } = await loadQuery<SanityDocument[]>({
+  query: `*[_type == "terminos"]`,
+});
+
+console.log("politicas", data);
+
+const item = data.find((item) => item.title === "Políticas de privacidad");
+---
+
+<Layout>
+  <div class="container__global container">
+    <h1>{item?.title}</h1>
+    <PortableText portableText={item?.body} />
+  </div>
+</Layout>
+
+<style>
+  .container {
+    margin-bottom: 2rem;
+  }
+</style>

@@ -1,18 +1,13 @@
 ---
-//export const prerender = false;
+export const prerender = false;
 
-import Welcome from "../components/Welcome.astro";
-import { Image } from "astro:assets";
 import headerbg from "../assets/header-bg.webp";
 import Layout from "../layouts/Layout.astro";
 import Button from "../components/Button.astro";
 import Benefits from "../components/Benefits.astro";
 import Posts from "../components/Posts.astro";
-import logo from "../assets/logo.png";
 import Testimony2 from "../components/Testimony2.astro";
-import Testimony from "../components/Testimony.astro";
 import Services from "../components/Services.astro";
-import Clients from "../components/Clients.astro";
 import videoBg from "../assets/video-bg.mp4";
 import Industries from "../components/Industries.astro";
 import Client2 from "../components/Client2.astro";
@@ -331,13 +326,10 @@ const { data: testimonials } = await loadQuery<SanityDocument[]>({
 </style>
 
 <script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsapUtils } from "../gsap-utils";
 
   document.addEventListener("astro:page-load", (event) => {
-    let tl = gsap.timeline({
+    let tl = gsapUtils.gsap.timeline({
       onComplete: () => {
         const video = document.querySelector(".header__bg");
         if (video) {

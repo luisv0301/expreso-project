@@ -1,23 +1,12 @@
 ---
 import logo from "../assets/logo.png";
-import { loadQuery } from "../sanity/lib/loadquery";
-import type { SanityDocument } from "@sanity/client";
+import BlogLink from "./BlogLink.astro";
 const navLinks = [
   { href: "/", text: "INICIO" },
   { href: "/servicios", text: "SERVICIOS" },
   { href: "/sobre-nosotros", text: "SOBRE NOSOTROS" },
   { href: "/flota", text: "FLOTA" },
 ];
-
-const { data: posts } = await loadQuery<SanityDocument[]>({
-  query: `*[_type == "post"]{
-        title,
-        slug,
-        mainImage,
-        publishedAt,
-        extracto,
-    }`,
-});
 ---
 
 <div class="header">
@@ -54,15 +43,7 @@ const { data: posts } = await loadQuery<SanityDocument[]>({
             </li>
           ))
         }
-        {
-          posts.length > 0 && (
-            <li class="header__nav-item">
-              <a href="/noticias" class="header__nav-link">
-                NOTICIAS
-              </a>
-            </li>
-          )
-        }
+        <BlogLink server:defer />
       </ul>
     </nav>
   </div>

@@ -1,5 +1,5 @@
 ---
-//export const prerender = false;
+export const prerender = false;
 
 import type { SanityDocument } from "@sanity/client";
 import { loadQuery } from "../../sanity/lib/loadquery";
@@ -8,6 +8,7 @@ import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { urlForImage } from "../../sanity/lib/url-for-image";
 
+/*
 export async function getStaticPaths() {
   const { data: posts } = await loadQuery<SanityDocument[]>({
     query: `*[_type == "post"]`,
@@ -24,16 +25,15 @@ export async function getStaticPaths() {
     }
   );
 }
+  */
 
-//const { slug }: any = Astro.params;
-const { title, mainImage, body, publishedAt, extracto } = Astro.props;
+const { slug }: any = Astro.params;
+//const { title, mainImage, body, publishedAt, extracto } = Astro.props;
 
-/*
 const { data: post } = await loadQuery({
   query: `*[_type == "post" && slug.current == $slug][0]`,
   params: { slug },
 });
-*/
 
 //const imgUrl = urlForImage(post.mainImage.asset).url();
 
@@ -51,14 +51,14 @@ const formatDate = (date: string) => {
 <Layout>
   <div class="post__container">
     <Image
-      src={urlForImage(mainImage.asset).url()}
+      src={urlForImage(post.mainImage.asset).url()}
       inferSize
       alt="Noticias"
       class="post__image"
     />
     <div class="post__description container__global">
       <div>
-        <h1 class="post__title">{title}</h1>
+        <h1 class="post__title">{post.title}</h1>
         <div class="post__date">
           <svg
             width="25"
@@ -90,16 +90,16 @@ const formatDate = (date: string) => {
                 fill-opacity="0.7"></path>
             </g>
           </svg>
-          <span>{formatDate(publishedAt)}</span>
+          <span>{formatDate(post.publishedAt)}</span>
         </div>
       </div>
       <p class="post__info">
-        {extracto}
+        {post.extracto}
       </p>
     </div>
   </div>
   <div class="post__content">
-    <PortableText portableText={body} />
+    <PortableText portableText={post.body} />
   </div>
 </Layout>
 

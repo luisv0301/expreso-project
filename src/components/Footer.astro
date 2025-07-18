@@ -7,6 +7,8 @@ import certificacionOne from "../assets/certificaciones-01.png";
 import certificacionTwo from "../assets/certificaciones-02.png";
 import certificacionThree from "../assets/certificaciones-03.png";
 import certificacionFour from "../assets/certificaciones-04.png";
+import certificacionFive from "../assets/certificaciones-05.png";
+import certificacionSix from "../assets/certificaciones-06.png";
 import ContactInfo from "./ContactInfo.astro";
 
 const certificaciones = [
@@ -14,6 +16,8 @@ const certificaciones = [
   certificacionTwo,
   certificacionThree,
   certificacionFour,
+  certificacionFive,
+  certificacionSix,
 ];
 
 const footerNavLinks = [
@@ -25,8 +29,8 @@ const footerNavLinks = [
 ];
 
 const legalLinks = [
-  { href: "/terminos-y-condiciones", text: "TERMINOS Y CONDICIONES" },
-  { href: "/politicas-de-privacidad", text: "POLITICAS DE PRIVACIDAD" },
+  { href: "/terminos-y-condiciones", text: "TÉRMINOS Y CONDICIONES" },
+  { href: "/politicas-de-privacidad", text: "POLÍTICAS DE PRIVACIDAD" },
 ];
 ---
 
@@ -458,7 +462,7 @@ const legalLinks = [
     color: inherit;
   }
   .site-footer__legal-link:hover {
-    color: #ffffff;
+    color: var(--primary-color);
     text-decoration: underline;
   }
 

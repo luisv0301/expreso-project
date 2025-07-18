@@ -1,13 +1,11 @@
 ---
-//export const prerender = false;
+export const prerender = false;
 
 import Layout from "../layouts/Layout.astro";
 import servicesHeader from "../assets/services-header.png";
 import { Image } from "astro:assets";
 import Services from "../components/services/Services.astro";
-import Clients from "../components/Clients.astro";
 import Button from "../components/Button.astro";
-import Marquee from "../components/Marquee.astro";
 import Client2 from "../components/Client2.astro";
 import { loadQuery } from "../sanity/lib/loadquery";
 import type { SanityDocument } from "@sanity/client";
@@ -94,10 +92,10 @@ const { data: logos } = await loadQuery<SanityDocument[]>({
   </style>
 
   <script>
-    import { gsap } from "gsap";
+    import { gsapUtils } from "../gsap-utils";
 
     document.addEventListener("astro:page-load", () => {
-      const tl = gsap.timeline();
+      const tl = gsapUtils.gsap.timeline();
       tl.from(".services__header-title", { opacity: 0, y: 50, duration: 0.4 });
 
       tl.fromTo(

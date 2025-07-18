@@ -1,9 +1,8 @@
 ---
-//export const prerender = false;
+export const prerender = false;
 
 import Layout from "../layouts/Layout.astro";
 import Posts from "../components/Posts.astro";
-import Clients from "../components/Clients.astro";
 import { Image } from "astro:assets";
 import teamOne from "../assets/team-1.png";
 import teamTwo from "../assets/team-2.png";
@@ -309,18 +308,13 @@ const { data: posts } = await loadQuery<SanityDocument[]>({
 </style>
 
 <script>
-  import { gsap } from "gsap";
-  import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
-  gsap.registerPlugin(DrawSVGPlugin);
+  import { gsapUtils } from "../gsap-utils";
 
   document.addEventListener("astro:page-load", (event) => {
-    gsap.from(".about__title", { y: 100, opacity: 0, duration: 0.5 });
-    gsap.from(".about__path", { duration: 1, drawSVG: 0 });
+    gsapUtils.gsap.from(".about__title", { y: 100, opacity: 0, duration: 0.5 });
+    gsapUtils.gsap.from(".about__path", { duration: 1, drawSVG: 0 });
 
-    const tl = gsap.timeline();
+    const tl = gsapUtils.gsap.timeline();
 
     tl.to(".team__img-small", {
       scrollTrigger: {

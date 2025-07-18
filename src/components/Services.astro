@@ -239,13 +239,10 @@ const servicios = [
 </style>
 
 <script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsapUtils } from "../gsap-utils";
 
   document.addEventListener("astro:page-load", () => {
-    gsap.from(".services__title", {
+    gsapUtils.gsap.from(".services__title", {
       scrollTrigger: {
         trigger: ".services__title",
         start: "top center",
@@ -255,7 +252,7 @@ const servicios = [
       x: -200,
     });
 
-    gsap.from(".services__icon", {
+    gsapUtils.gsap.from(".services__icon", {
       scrollTrigger: {
         trigger: ".services__title",
         start: "top center",
@@ -294,8 +291,11 @@ const servicios = [
 
         const currentImg = imgs[index];
 
-        gsap.set(currentImg, { clipPath: initialClipPath });
-        gsap.to(currentImg, { clipPath: clipPaths[index], duration: 0.5 });
+        gsapUtils.gsap.set(currentImg, { clipPath: initialClipPath });
+        gsapUtils.gsap.to(currentImg, {
+          clipPath: clipPaths[index],
+          duration: 0.5,
+        });
       });
     });
 

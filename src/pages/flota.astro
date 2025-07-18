@@ -137,19 +137,20 @@ const flotas = [
 </style>
 
 <script>
-  import { gsap } from "gsap";
-  import MagicGrid from "magic-grid";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsapUtils } from "../gsap-utils";
 
   document.addEventListener("astro:page-load", (event) => {
-    gsap.to(".flota__icon", { x: 0, opacity: 1, scaleX: 1, duration: 0.4 });
+    gsapUtils.gsap.to(".flota__icon", {
+      x: 0,
+      opacity: 1,
+      scaleX: 1,
+      duration: 0.4,
+    });
 
     const galleryItems = document.querySelectorAll(".flota__img");
 
     galleryItems.forEach((item, index) => {
-      gsap.to(item, {
+      gsapUtils.gsap.to(item, {
         opacity: 1,
         scale: 1,
         scrollTrigger: {

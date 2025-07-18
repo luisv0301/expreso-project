@@ -19,7 +19,7 @@ export const server = {
       console.log("enviando correo");
       const { data, error } = await resend.emails.send({
         from: "Acme <onboarding@resend.dev>",
-        to: ["luisvbdr0301@gmail.com"],
+        to: ["info@expresovitale.com"],
         subject: asunto,
         html: `
   <strong>¡Hola, haz recibido un nuevo correo de ${nombre}!</strong>

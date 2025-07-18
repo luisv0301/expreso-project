@@ -200,7 +200,7 @@ const { testimonials } = Astro.props;
 
 <script>
   // @ts-ignore
-  import { gsap } from "gsap";
+  import { gsapUtils } from "../gsap-utils";
 
   document.addEventListener("astro:page-load", () => {
     function startAnimation() {
@@ -241,9 +241,9 @@ const { testimonials } = Astro.props;
 
         items.forEach((item, index) => {
           if (index !== current) {
-            gsap.set(item, { opacity: 0, xPercent: 100 });
+            gsapUtils.gsap.set(item, { opacity: 0, xPercent: 100 });
           } else {
-            gsap.set(item, { opacity: 1, xPercent: 0 });
+            gsapUtils.gsap.set(item, { opacity: 1, xPercent: 0 });
           }
         });
       }
@@ -265,15 +265,15 @@ const { testimonials } = Astro.props;
         const ease = "power2.inOut";
 
         if (direction === "next") {
-          gsap.set(incomingItem, { xPercent: xDisplacement });
+          gsapUtils.gsap.set(incomingItem, { xPercent: xDisplacement });
         } else {
-          gsap.set(incomingItem, { xPercent: -xDisplacement });
+          gsapUtils.gsap.set(incomingItem, { xPercent: -xDisplacement });
         }
 
-        const tl = gsap.timeline({
+        const tl = gsapUtils.gsap.timeline({
           onComplete: () => {
             outgoingItem.style.opacity = 0;
-            gsap.set(outgoingItem, {
+            gsapUtils.gsap.set(outgoingItem, {
               xPercent: direction === "next" ? xDisplacement : -xDisplacement,
             });
             isAnimating = false;
@@ -317,6 +317,8 @@ const { testimonials } = Astro.props;
     startAnimation();
   });
 
+  /*
+
   document.addEventListener("astro:page-load", () => {
     const slider = document.getElementById("slider");
     const items = slider?.querySelectorAll(".testimonios__item");
@@ -355,9 +357,9 @@ const { testimonials } = Astro.props;
 
       items.forEach((item, index) => {
         if (index !== current) {
-          gsap.set(item, { opacity: 0, xPercent: 100 });
+          gsapUtils.gsap.set(item, { opacity: 0, xPercent: 100 });
         } else {
-          gsap.set(item, { opacity: 1, xPercent: 0 });
+          gsapUtils.gsap.set(item, { opacity: 1, xPercent: 0 });
         }
       });
     }
@@ -379,15 +381,15 @@ const { testimonials } = Astro.props;
       const ease = "power2.inOut";
 
       if (direction === "next") {
-        gsap.set(incomingItem, { xPercent: xDisplacement });
+        gsapUtils.gsap.set(incomingItem, { xPercent: xDisplacement });
       } else {
-        gsap.set(incomingItem, { xPercent: -xDisplacement });
+        gsapUtils.gsap.set(incomingItem, { xPercent: -xDisplacement });
       }
 
       const tl = gsap.timeline({
         onComplete: () => {
           outgoingItem.style.opacity = 0;
-          gsap.set(outgoingItem, {
+          gsapUtils.gsap.set(outgoingItem, {
             xPercent: direction === "next" ? xDisplacement : -xDisplacement,
           });
           isAnimating = false;
@@ -427,4 +429,5 @@ const { testimonials } = Astro.props;
       animateSlides(newIndex, "prev");
     });
   });
+  */
 </script>

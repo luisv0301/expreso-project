@@ -147,7 +147,7 @@ const { logos } = Astro.props;
 </style>
 
 <script>
-  import { gsap } from "gsap";
+  import { gsapUtils } from "../gsap-utils";
 
   document.addEventListener("astro:page-load", () => {
     const logos = document.querySelectorAll(".clientes__logos");
@@ -155,7 +155,7 @@ const { logos } = Astro.props;
     if (!logos || logos.length === 0) return;
 
     logos.forEach((logo) => {
-      gsap.to(logo, {
+      gsapUtils.gsap.to(logo, {
         xPercent: -100,
         duration: 30,
         ease: "linear",

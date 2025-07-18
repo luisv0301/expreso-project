@@ -140,7 +140,7 @@ const clientes = [
 </style>
 
 <script>
-  import { gsap } from "gsap";
+  import { gsapUtils } from "../gsap-utils";
 
   document.addEventListener("astro:page-load", () => {
     const industries = document.querySelectorAll(
@@ -148,7 +148,7 @@ const clientes = [
     );
 
     industries.forEach((industry) => {
-      gsap.to(industry, {
+      gsapUtils.gsap.to(industry, {
         xPercent: -100,
         duration: 30,
         ease: "linear",

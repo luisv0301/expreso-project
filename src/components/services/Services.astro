@@ -288,15 +288,12 @@ const servicesData = [
 </style>
 
 <script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsapUtils } from "../../gsap-utils";
 
   document.addEventListener("astro:page-load", () => {
     const services = document.querySelectorAll(".key-services__image");
     services.forEach((service) => {
-      gsap.fromTo(
+      gsapUtils.gsap.fromTo(
         service,
         {
           clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
