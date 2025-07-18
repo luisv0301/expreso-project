@@ -16,7 +16,6 @@ export const server = {
       mensaje: z.string(),
     }),
     handler: async ({ email, nombre, asunto, empresa, provincia, mensaje }) => {
-      console.log("enviando correo");
       const { data, error } = await resend.emails.send({
         from: "Acme <onboarding@resend.dev>",
         to: ["info@expresovitale.com"],

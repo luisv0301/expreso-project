@@ -1,7 +1,6 @@
 ---
 import logo from "../assets/logo.png";
 import footerBg from "../assets/footer-bg.webp";
-import Button from "./Button.astro";
 import { Image } from "astro:assets";
 import certificacionOne from "../assets/certificaciones-01.png";
 import certificacionTwo from "../assets/certificaciones-02.png";
@@ -25,7 +24,6 @@ const footerNavLinks = [
   { href: "/servicios", text: "SERVICIOS" },
   { href: "/sobre-nosotros", text: "SOBRE NOSOTROS" },
   { href: "/flota", text: "FLOTA" },
-  { href: "/noticias", text: "NOTICIAS" },
 ];
 
 const legalLinks = [
@@ -57,6 +55,7 @@ const legalLinks = [
               id="nombre"
               name="nombre"
               class="contact-form__input"
+              required
             />
           </div>
           <div class="contact-form__group contact-form__group--half">
@@ -66,6 +65,7 @@ const legalLinks = [
               id="email"
               name="email"
               class="contact-form__input"
+              required
             />
           </div>
           <div class="contact-form__group">
@@ -75,6 +75,7 @@ const legalLinks = [
               id="asunto"
               name="asunto"
               class="contact-form__input"
+              required
             />
           </div>
           <div class="contact-form__group">
@@ -84,6 +85,7 @@ const legalLinks = [
               id="empresa"
               name="empresa"
               class="contact-form__input"
+              required
             />
           </div>
           <div class="contact-form__group">
@@ -93,6 +95,7 @@ const legalLinks = [
               id="provincia"
               name="provincia"
               class="contact-form__input"
+              required
             />
           </div>
           <div class="contact-form__group">
@@ -101,6 +104,7 @@ const legalLinks = [
               id="mensaje"
               name="mensaje"
               rows="4"
+              required
               class="contact-form__textarea"></textarea>
           </div>
           <button type="submit" class="contact-form__button"

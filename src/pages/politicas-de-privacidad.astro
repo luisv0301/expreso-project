@@ -10,8 +10,6 @@ const { data } = await loadQuery<SanityDocument[]>({
   query: `*[_type == "terminos"]`,
 });
 
-console.log("politicas", data);
-
 const item = data.find((item) => item.title === "Políticas de privacidad");
 ---
 

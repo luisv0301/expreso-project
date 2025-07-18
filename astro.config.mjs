@@ -4,7 +4,7 @@ import { defineConfig } from "astro/config";
 import sanity from "@sanity/astro";
 import react from "@astrojs/react";
 
-import netlify from "@astrojs/netlify";
+import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,10 +20,11 @@ export default defineConfig({
     react(),
   ],
 
-  adapter: netlify({
-    imageCDN: false,
-  }),
   image: {
     domains: ["cdn.sanity.io"],
   },
+
+  adapter: node({
+    mode: "standalone",
+  }),
 });
